@@ -5,13 +5,20 @@ import com.evo.apatrios.models.utils.Criteria;
 
 import java.math.BigDecimal;
 
-public class Programmer extends Employee implements com.evo.apatrios.models.roles.Programmer {
+public class Programmer extends Employee implements com.evo.apatrios.models.roles.entitiesRoles.Programmer {
+
+    private Programmer(){}
     @Override
     public void doJob(Integer hours) {
         setWorkedHours(getWorkingHours()+hours);
+        role.doJob(hours/4);// Да, опять магические числа
         if (getWorkedHours() >= getWorkingHours()){
             salaryPaying();
         }
+    }
+
+    public void doJobByRole(Integer hours){
+        role.doJob(hours);
     }
 
     @Override

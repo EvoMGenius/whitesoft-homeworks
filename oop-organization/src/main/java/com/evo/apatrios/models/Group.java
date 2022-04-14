@@ -6,6 +6,6 @@ import com.evo.apatrios.models.roles.Head;
 import java.util.List;
 
 public class Group {
-    private Head head;
+    private Employee head;
     private List<Employee> employees;
 }
