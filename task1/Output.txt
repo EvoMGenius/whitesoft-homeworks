@@ -1,0 +1,2 @@
+Employee{firstName='Иванов', lastName='Иван', description='', characteristics=[some characterisitc], post=Backend Middle Developer}
+Employee{firstName='Геннадий', lastName='Кузьмин', description='Lorem ipsum dolor sit amet, consectetur adipiscing elit. Cras sit', characteristics=[ introvert,  like criticism,  love of Learning, honest], post=Backend Senior Developer}
