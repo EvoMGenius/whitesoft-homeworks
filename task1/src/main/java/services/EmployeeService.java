@@ -44,7 +44,7 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
-    public List<Employee> getEmployeeDAO(){
+    public List<Employee> getEmployees(){
         return employeeDAO.getEmployees();
     }
 }
