@@ -8,15 +8,14 @@ import java.util.List;
 @Getter
 @Setter
 @EqualsAndHashCode
-//@ToString
 @Builder
 public class Employee {
 
-    protected String firstName;
-    protected String lastName;
-    protected String description;
-    protected List<String> characteristics;
-    protected Post post;
+    private String firstName;
+    private String lastName;
+    private String description;
+    private List<String> characteristics;
+    private Post post;
 
 
     @Override

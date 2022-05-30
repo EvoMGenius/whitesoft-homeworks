@@ -26,7 +26,7 @@ public class FileService {
         return jsonArray;
     }
 
-    private static List<String> readToListOfString(File file){
+    public List<String> readToListOfString(File file){
         List<String> readedInfo = new ArrayList<>();
         try(Scanner sc = new Scanner(file)){
             sc.useDelimiter("((\\n\\r)|(\\r\\n)){2}|(\\r){2}|(\\n){2}");

@@ -13,8 +13,8 @@ import java.util.UUID;
 @EqualsAndHashCode
 public class Post {
 
-    protected UUID id;
+    private UUID id;
 
-    protected String name;
+    private String name;
 
 }

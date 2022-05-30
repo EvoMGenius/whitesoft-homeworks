@@ -1,3 +1,5 @@
+import actions.ToEmployeeParser;
+import dao.EmployeeDAO;
 import models.SearchParams;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -14,19 +16,23 @@ public class Main {
     private static SearchParams searchParam =new SearchParams();
 
     public static void main(String[] args) {
-        parseArgs(args);
+//        parseArgs(args);
+        String[] strings = new String[]{"-file=","task1/src/main/resources/input.json","-firstname=","Иван"};
+        parseArgs(strings);
         PostsService postsService = new PostsService();
-        EmployeeService employeeService = new EmployeeService(postsService);
+        EmployeeDAO employeeDAO = new EmployeeDAO();
+        EmployeeService employeeService = new EmployeeService(employeeDAO);
         FileService fileService = new FileService();
+        ToEmployeeParser parser = new ToEmployeeParser(postsService);
 
         postsService.autofill();
 
         File file = new File(filePath);
         JSONArray array = fileService.readToJsonArray(file);
         array.forEach( o -> {
-            employeeService.parseFromJson((JSONObject) o);
+            employeeService.addEmployee(parser.parseFromJson((JSONObject) o));
         });
-        employeeService.getEmployees(searchParam).forEach(System.out::println);
+        employeeService.getEmployeesWithSearchParams(searchParam).forEach(System.out::println);
     }
 
     private static void parseArgs(String[] args) {
@@ -36,6 +42,7 @@ public class Main {
         for (int i = 0; i < args.length; i++) {
             if (args[i].equals("-file=")) {
                 filePath = args[i + 1];
+                System.out.println(filePath);
             }
             if (args[i].equals("-firstname=")) {
                  searchParam.setFirstName(args[i + 1]);
