@@ -16,9 +16,7 @@ public class Main {
     private static SearchParams searchParam =new SearchParams();
 
     public static void main(String[] args) {
-//        parseArgs(args);
-        String[] strings = new String[]{"-file=","task1/src/main/resources/input.json","-firstname=","Иван"};
-        parseArgs(strings);
+        parseArgs(args);
         PostsService postsService = new PostsService();
         EmployeeDAO employeeDAO = new EmployeeDAO();
         EmployeeService employeeService = new EmployeeService(employeeDAO);
