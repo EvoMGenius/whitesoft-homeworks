@@ -11,13 +11,10 @@ import org.junit.Test;
 
 import java.io.File;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import java.util.UUID;
 
-import static org.junit.Assert.*;
-
-public class EmployeeServiceTest {
+public class ToEmployeeParserTest {
 
     PostsService postsService = new PostsService();
     EmployeeDAO dao = new EmployeeDAO();
@@ -30,7 +27,7 @@ public class EmployeeServiceTest {
                                                                 new Post(UUID.fromString("762d15a5-3bc9-43ef-ae96-02a680a557d0"),"Backend Middle Developer"))));
 
     @Test
-    public void parseFromJsonFromFile() {
+    public void getEmployeesFromJson() {
         //arrange
         postsService.autofill();
         FileService fileService = new FileService();

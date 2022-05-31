@@ -21,24 +21,20 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployeesWithSearchParams(SearchParams params) {
+        List<Predicate<Employee>> predicates = new ArrayList<>();
         List<Employee> employees = this.employeeDAO.getEmployees();
-        Predicate<Employee> predicateFirstName = employee -> true;
-        Predicate<Employee> predicateLastName= employee -> true;
-        Predicate<Employee> predicateUUID = employee -> true;
         if(params.getFirstName()!=null){
-            predicateFirstName = employee -> employee.getFirstName().toLowerCase().contains(params.getFirstName().toLowerCase());
+            predicates.add(employee -> employee.getFirstName().toLowerCase().contains(params.getFirstName().toLowerCase()));
         }
         if(params.getLastName()!=null){
-            predicateLastName = employee ->  employee.getLastName().toLowerCase().contains(params.getLastName().toLowerCase());
+            predicates.add(employee ->  employee.getLastName().toLowerCase().contains(params.getLastName().toLowerCase()));
         }
         if(params.getPostId()!=null){
-            predicateUUID = employee -> employee.getPost().getId().equals(params.getPostId());
+            predicates.add(employee -> employee.getPost().getId().equals(params.getPostId()));
         }
 
         return employees.stream()
-                .filter(predicateFirstName)
-                .filter(predicateLastName)
-                .filter(predicateUUID)
+                .filter(predicates.stream().reduce(x->true , Predicate::and))
                 .sorted(Comparator.comparing(Employee::getFirstName)
                         .thenComparing(Employee::getLastName))
                 .collect(Collectors.toList());
