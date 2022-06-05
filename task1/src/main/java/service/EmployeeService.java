@@ -1,28 +1,37 @@
-package services;
+package service;
 
-import dao.EmployeeDAO;
-import models.Employee;
-import models.SearchParams;
+import argument.CreationEmployeeArgumentForService;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import repository.EmployeeRepository;
+import model.Employee;
+import service.utils.SearchParams;
 
 import java.util.*;
 import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
+@Service
 public class EmployeeService {
 
-    private final EmployeeDAO employeeDAO;
+    private final EmployeeRepository repository;
 
-    public EmployeeService(EmployeeDAO employees) {
-        this.employeeDAO = employees;
+    private final ObjectMapper mapper;
+
+    @Autowired
+    public EmployeeService(EmployeeRepository employees, ObjectMapper mapper) {
+        this.repository = employees;
+        this.mapper = mapper;
     }
 
-    public void addEmployee(Employee employee){
-        employeeDAO.add(employee);
+    public Employee create(CreationEmployeeArgumentForService employee){
+        return repository.save(mapper.convertValue(employee, Employee.class));
     }
 
     public List<Employee> getEmployeesWithSearchParams(SearchParams params) {
         List<Predicate<Employee>> predicates = new ArrayList<>();
-        List<Employee> employees = this.employeeDAO.getEmployees();
+        List<Employee> employees = this.repository.findAll();
         if(params.getFirstName()!=null){
             predicates.add(employee -> employee.getFirstName().toLowerCase().contains(params.getFirstName().toLowerCase()));
         }
@@ -41,6 +50,6 @@ public class EmployeeService {
     }
 
     public List<Employee> getEmployees(){
-        return employeeDAO.getEmployees();
+        return repository.findAll();
     }
 }
