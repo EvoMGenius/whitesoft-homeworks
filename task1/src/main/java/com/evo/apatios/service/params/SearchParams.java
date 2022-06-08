@@ -1,4 +1,4 @@
-package com.evo.apatios.service.utils;
+package com.evo.apatios.service.params;
 
 import lombok.*;
 

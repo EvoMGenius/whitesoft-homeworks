@@ -1,17 +1,15 @@
 package com.evo.apatios.action;
 
-import com.evo.apatios.argument.CreationEmployeeArgumentForService;
-import com.evo.apatios.argument.CreationEmployeeArgument;
+import com.evo.apatios.service.CreationEmployeeArgument;
+import com.evo.apatios.argument.CreationEmployeeActionArgument;
 import com.evo.apatios.exception.IllegalPostNameException;
 import com.evo.apatios.model.Employee;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.evo.apatios.service.EmployeeService;
 import com.evo.apatios.service.PostService;
 
 @Component
-@Slf4j
 public class AddEmployeeAction {
 
     public final EmployeeService employeeService;
@@ -24,8 +22,8 @@ public class AddEmployeeAction {
         this.postService = postService;
     }
 
-    public Employee execute(CreationEmployeeArgument employeeArgument){
-        CreationEmployeeArgumentForService argumentForService = CreationEmployeeArgumentForService.builder()
+    public Employee execute(CreationEmployeeActionArgument employeeArgument){
+        CreationEmployeeArgument argumentForService = CreationEmployeeArgument.builder()
                 .firstName(employeeArgument.getFirstName())
                 .lastName(employeeArgument.getLastName())
                 .characteristics(employeeArgument.getCharacteristics())
@@ -35,7 +33,6 @@ public class AddEmployeeAction {
                 }))
                 .build();
 
-        log.info(argumentForService.toString());
         return employeeService.create(argumentForService);
     }
 }

@@ -1,14 +1,12 @@
 package com.evo.apatios.service;
 
-import com.evo.apatios.argument.CreationEmployeeArgument;
-import com.evo.apatios.argument.CreationEmployeeArgumentForService;
+import com.evo.apatios.util.Guard;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.evo.apatios.repository.EmployeeRepository;
 import com.evo.apatios.model.Employee;
-import com.evo.apatios.service.utils.SearchParams;
+import com.evo.apatios.service.params.SearchParams;
 
 import java.util.*;
 import java.util.function.Predicate;
@@ -19,17 +17,19 @@ public class EmployeeService {
 
     private final EmployeeRepository repository;
 
-    private final ObjectMapper mapper;
-
     @Autowired
-    public EmployeeService(EmployeeRepository employees, ObjectMapper mapper) {
+    public EmployeeService(EmployeeRepository employees) {
         this.repository = employees;
-        this.mapper = mapper;
     }
 
-    public Employee create(CreationEmployeeArgumentForService employee){
-        Employee save = repository.save(mapper.convertValue(employee, Employee.class));
-        return save;
+    public Employee create(CreationEmployeeArgument employee){
+        return repository.save(Employee.builder()
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .characteristics(employee.getCharacteristics())
+                .description(employee.getDescription())
+                .post(employee.getPost())
+                .build());
     }
 
     public List<Employee> getEmployeesWithSearchParams(SearchParams params) {

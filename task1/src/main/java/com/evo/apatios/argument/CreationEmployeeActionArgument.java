@@ -8,7 +8,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreationEmployeeArgument {
+public class CreationEmployeeActionArgument {
     private String firstName;
     private String lastName;
     private String description;
