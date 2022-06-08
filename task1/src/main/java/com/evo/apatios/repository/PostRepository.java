@@ -1,6 +1,8 @@
 package com.evo.apatios.repository;
 
+import com.evo.apatios.exception.CreationPostException;
 import com.evo.apatios.model.Post;
+import com.evo.apatios.util.Guard;
 import org.springframework.stereotype.Repository;
 
 import java.util.HashMap;
@@ -23,6 +25,7 @@ public class PostRepository {
     }
 
     public Post save(Post post){
+        Guard.check(!posts.containsValue(post), String.format("This post %s is already exists", post), CreationPostException::new);
         posts.put(post.getId(), post);
         return post;
     }

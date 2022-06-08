@@ -22,6 +22,12 @@ public class GlobalExceptionHandler {
     }
 
     @ExceptionHandler
+    public ResponseEntity<?> catchCreationPostException(CreationPostException e){
+        log.error(e.getErrorMessage(), e);
+        return new ResponseEntity<>(new MessageError(HttpStatus.BAD_REQUEST.value(), e.getErrorMessage()), HttpStatus.BAD_REQUEST);
+    }
+
+    @ExceptionHandler
     public ResponseEntity<?> catchUpdatingEmployeeException(UpdatingEmployeeException e){
         log.error(e.getErrorMessage(), e);
         return new ResponseEntity<>(new MessageError(HttpStatus.BAD_REQUEST.value(), e.getErrorMessage()), HttpStatus.BAD_REQUEST);

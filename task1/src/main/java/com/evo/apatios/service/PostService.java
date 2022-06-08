@@ -1,7 +1,5 @@
 package com.evo.apatios.service;
 
-import com.evo.apatios.argument.CreationPostArgument;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.evo.apatios.model.Post;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -15,12 +13,11 @@ import java.util.UUID;
 public class PostService {
 
     private final PostRepository repository;
-    private final ObjectMapper mapper;
+
 
     @Autowired
-    public PostService(PostRepository repository, ObjectMapper mapper) {
+    public PostService(PostRepository repository) {
         this.repository = repository;
-        this.mapper = mapper;
     }
 
     public Map<UUID, Post> findAll(){
@@ -28,7 +25,7 @@ public class PostService {
     }
 
     public Post create(CreationPostArgument post){
-        return repository.save(mapper.convertValue(post, Post.class));
+        return repository.save(new Post(post.getId(), post.getName()));
     }
 
     public Optional<Post> findById(UUID id){
