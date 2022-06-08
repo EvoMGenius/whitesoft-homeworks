@@ -13,15 +13,14 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
-@Slf4j
 public class EmployeeRepository {
 
     private final List<Employee> employees = new ArrayList<>();
 
     public Employee save(Employee employee) {
         Guard.check(!employees.contains(employee), String.format("This Employee - %s is already exists",employee),CreationEmployeeException::new);
+        employee.setId(UUID.randomUUID());
         employees.add(employee);
-        log.info(employee.toString());
         return employee;
     }
 
