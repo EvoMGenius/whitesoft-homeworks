@@ -26,11 +26,14 @@ public class EmployeeService {
     public Employee create(CreationEmployeeArgument employee){
         Guard.check(employee.getId()==null, "Employee Id must be null", CreationEmployeeException::new);
         return repository.save(Employee.builder()
+                .id(employee.getId())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
-                .characteristics(employee.getCharacteristics())
                 .description(employee.getDescription())
                 .post(employee.getPost())
+                .contacts(employee.getContacts())
+                .characteristics(employee.getCharacteristics())
+                .jobType(employee.getJobType())
                 .build());
     }
 

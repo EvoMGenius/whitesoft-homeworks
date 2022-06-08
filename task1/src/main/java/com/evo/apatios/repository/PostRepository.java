@@ -11,7 +11,7 @@ import java.util.UUID;
 @Repository
 public class PostRepository {
 
-    private Map<UUID, Post> posts = new HashMap<>(){};
+    private final Map<UUID, Post> posts = new HashMap<>(){};
 
     public void autoFill(){
         posts.put(UUID.fromString("854ef89d-6c27-4635-926d-894d76a81707"), new Post(UUID.fromString("854ef89d-6c27-4635-926d-894d76a81707"), "Backend Senior Developer"));

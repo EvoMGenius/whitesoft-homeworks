@@ -13,13 +13,15 @@ import java.util.Optional;
 import java.util.UUID;
 
 @Repository
+@Slf4j
 public class EmployeeRepository {
 
     private final List<Employee> employees = new ArrayList<>();
 
     public Employee save(Employee employee) {
-        Guard.check(employees.contains(employee), String.format("This Employee - %s is already exists",employee),CreationEmployeeException::new);
+        Guard.check(!employees.contains(employee), String.format("This Employee - %s is already exists",employee),CreationEmployeeException::new);
         employees.add(employee);
+        log.info(employee.toString());
         return employee;
     }
 
@@ -32,12 +34,12 @@ public class EmployeeRepository {
     }
 
     public void deleteById(UUID id){
-        Employee employee = employees.stream().filter(emp -> emp.getId().equals(id)).findFirst().orElseThrow(() -> new NotFoundEmployeeException(""));
+        Employee employee = employees.stream().filter(emp -> emp.getId().equals(id)).findFirst().orElseThrow(NotFoundEmployeeException::new);
         employees.remove(employee);
     }
 
     public Employee update(Employee employee){
-        Employee employee1 = employees.stream().filter(emp -> emp.getId().equals(employee.getId())).findFirst().orElseThrow(() -> new NotFoundEmployeeException(""));
+        Employee employee1 = employees.stream().filter(emp -> emp.getId().equals(employee.getId())).findFirst().orElseThrow(NotFoundEmployeeException::new);
         int index = employees.indexOf(employee1);
         employees.add(index, employee);
         return employee;

@@ -1,7 +1,5 @@
 package com.evo.apatios.util;
 
-import com.evo.apatios.exception.CreationEmployeeException;
-
 import java.util.function.Function;
 
 public class Guard {

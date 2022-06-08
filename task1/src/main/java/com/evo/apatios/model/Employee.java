@@ -27,11 +27,14 @@ public class Employee {
     @Override
     public String toString() {
         return "Employee{" +
-                "firstName='" + firstName + '\'' +
+                "id=" + id +
+                ", firstName='" + firstName + '\'' +
                 ", lastName='" + lastName + '\'' +
                 ", description='" + description + '\'' +
-                ", characteristics=" + characteristics +
                 ", post=" + post.getName() +
+                ", contacts=" + contacts +
+                ", characteristics=" + characteristics +
+                ", jobType=" + jobType +
                 '}';
     }
 }
