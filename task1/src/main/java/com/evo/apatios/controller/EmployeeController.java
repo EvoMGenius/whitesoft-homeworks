@@ -1,16 +1,18 @@
 package com.evo.apatios.controller;
 
-import com.evo.apatios.action.AddEmployeeAction;
-import com.evo.apatios.argument.CreationEmployeeActionArgument;
+import com.evo.apatios.action.CreationEmployeeAction;
+import com.evo.apatios.action.UpdateEmployeeAction;
+import com.evo.apatios.exception.NotFoundEmployeeException;
 import com.evo.apatios.mapper.EmployeeMapper;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.evo.apatios.dto.EmployeeDto;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 import com.evo.apatios.service.EmployeeService;
 import com.evo.apatios.service.params.SearchParams;
 
 import java.util.List;
+import java.util.UUID;
 import java.util.stream.Collectors;
 
 @RestController
@@ -18,13 +20,15 @@ import java.util.stream.Collectors;
 public class EmployeeController {
 
     private final EmployeeService employeeService;
-    private final AddEmployeeAction addEmployeeAction;
+    private final CreationEmployeeAction creationEmployeeAction;
+    private final UpdateEmployeeAction  updateEmployeeAction;
     private final EmployeeMapper employeeMapper;
 
     @Autowired
-    public EmployeeController(EmployeeService employeeService, AddEmployeeAction addEmployeeAction, EmployeeMapper employeeMapper) {
+    public EmployeeController(EmployeeService employeeService, CreationEmployeeAction creationEmployeeAction, UpdateEmployeeAction updateEmployeeAction, EmployeeMapper employeeMapper) {
         this.employeeService = employeeService;
-        this.addEmployeeAction = addEmployeeAction;
+        this.creationEmployeeAction = creationEmployeeAction;
+        this.updateEmployeeAction = updateEmployeeAction;
         this.employeeMapper = employeeMapper;
     }
     @GetMapping()
@@ -34,11 +38,30 @@ public class EmployeeController {
                 .collect(Collectors.toList());
     }
 
+    @GetMapping("/{id}")
+    public EmployeeDto findById(@PathVariable UUID id){
+        return employeeMapper.entityToDto(employeeService.findById(id).orElseThrow(NotFoundEmployeeException::new));
+    }
     @PostMapping
     public EmployeeDto create(@RequestBody EmployeeDto employeeDto){
         return employeeMapper.entityToDto(
-                addEmployeeAction.execute(
+                creationEmployeeAction.execute(
                         employeeMapper.dtoToCreationActionArgument(employeeDto)
                 ));
+    }
+
+    @PutMapping
+    public EmployeeDto update(@RequestBody EmployeeDto employeeDto){
+        return employeeMapper.entityToDto(
+                updateEmployeeAction.execute(
+                        employeeMapper.dtoToUpdateActionArgument(employeeDto)
+                )
+        );
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.OK)
+    public void deleteById(@PathVariable UUID id){
+        employeeService.deleteById(id);
     }
 }

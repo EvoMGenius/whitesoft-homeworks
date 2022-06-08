@@ -3,6 +3,7 @@ package com.evo.apatios.model;
 import lombok.*;
 
 import java.util.List;
+import java.util.UUID;
 
 @AllArgsConstructor
 @Getter
@@ -11,11 +12,16 @@ import java.util.List;
 @Builder
 public class Employee {
 
+    private UUID id;
+
     private String firstName;
     private String lastName;
     private String description;
-    private List<String> characteristics;
     private Post post;
+
+    private Contacts contacts;
+    private List<String> characteristics;
+    private JobType jobType;
 
 
     @Override

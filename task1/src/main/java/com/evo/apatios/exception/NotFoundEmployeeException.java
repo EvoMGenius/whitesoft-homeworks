@@ -1,7 +1,6 @@
 package com.evo.apatios.exception;
 
-public class IllegalPostNameException extends RuntimeException{
-
+public class NotFoundEmployeeException extends RuntimeException {
     private String errorMessage;
 
     public String getErrorMessage() {
@@ -11,10 +10,10 @@ public class IllegalPostNameException extends RuntimeException{
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
-    public IllegalPostNameException(){
-        this.errorMessage = "INCORRECT POST NAME";
+    public NotFoundEmployeeException(){
+        this.errorMessage = "EMPLOYEE IS NOT FOUND";
     }
-    public IllegalPostNameException(String errorMessage){
+    public NotFoundEmployeeException(String errorMessage){
         this.errorMessage = errorMessage;
     }
 }

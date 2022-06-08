@@ -1,7 +1,8 @@
 package com.evo.apatios.service;
 
+import com.evo.apatios.exception.CreationEmployeeException;
+import com.evo.apatios.exception.UpdatingEmployeeException;
 import com.evo.apatios.util.Guard;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.evo.apatios.repository.EmployeeRepository;
@@ -23,6 +24,7 @@ public class EmployeeService {
     }
 
     public Employee create(CreationEmployeeArgument employee){
+        Guard.check(employee.getId()==null, "Employee Id must be null", CreationEmployeeException::new);
         return repository.save(Employee.builder()
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
@@ -52,7 +54,32 @@ public class EmployeeService {
                 .collect(Collectors.toList());
     }
 
+    public void deleteById(UUID id){
+        repository.deleteById(id);
+    }
+
+    public Employee update(UpdateEmployeeArgument employee){
+        Guard.check(employee.getId()!=null, "Employee Id must NOT be null", UpdatingEmployeeException::new);
+        return repository.update(Employee.builder()
+                .id(employee.getId())
+                .firstName(employee.getFirstName())
+                .lastName(employee.getLastName())
+                .description(employee.getDescription())
+                .post(employee.getPost())
+                .contacts(employee.getContacts())
+                .characteristics(employee.getCharacteristics())
+                .jobType(employee.getJobType())
+                .build());
+    }
+
+
+
     public List<Employee> getEmployees(){
         return repository.findAll();
+    }
+
+
+    public Optional<Employee> findById(UUID id) {
+        return repository.findById(id);
     }
 }
