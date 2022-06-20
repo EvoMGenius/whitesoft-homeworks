@@ -1,6 +1,6 @@
 package com.evo.apatios.exception;
 
-public class IllegalPostIdException extends RuntimeException{
+public class NotFoundPostException extends RuntimeException{
 
     private String errorMessage;
 
@@ -11,10 +11,10 @@ public class IllegalPostIdException extends RuntimeException{
     public void setErrorMessage(String errorMessage) {
         this.errorMessage = errorMessage;
     }
-    public IllegalPostIdException(){
-        this.errorMessage = "INCORRECT POST ID";
+    public NotFoundPostException(){
+        this.errorMessage = "POST IS NOT FOUND!";
     }
-    public IllegalPostIdException(String errorMessage){
+    public NotFoundPostException(String errorMessage){
         this.errorMessage = errorMessage;
     }
 }

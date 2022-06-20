@@ -1,4 +1,4 @@
-package com.evo.apatios.service;
+package com.evo.apatios.service.argument;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;

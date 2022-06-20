@@ -1,4 +1,4 @@
-package com.evo.apatios.service;
+package com.evo.apatios.service.argument;
 
 import com.evo.apatios.model.Contacts;
 import com.evo.apatios.model.JobType;
@@ -11,7 +11,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreationEmployeeArgument {
+public class UpdatingEmployeeArgument {
     private UUID id;
 
     private String firstName;

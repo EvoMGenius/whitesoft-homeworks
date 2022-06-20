@@ -10,31 +10,25 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 @Slf4j
 public class GlobalExceptionHandler {
     @ExceptionHandler
-    public ResponseEntity<?> catchIllegalPostNameException(IllegalPostIdException e){
+    public ResponseEntity<MessageError> catchIllegalPostNameException(NotFoundPostException e){
         log.error(e.getErrorMessage(), e);
         return new ResponseEntity<>(new MessageError(HttpStatus.BAD_REQUEST.value(), e.getErrorMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> catchCreationEmployeeException(CreationEmployeeException e){
+    public ResponseEntity<MessageError> catchCreationEmployeeException(CreationEmployeeException e){
         log.error(e.getErrorMessage(), e);
         return new ResponseEntity<>(new MessageError(HttpStatus.BAD_REQUEST.value(), e.getErrorMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> catchCreationPostException(CreationPostException e){
+    public ResponseEntity<MessageError> catchCreationPostException(CreationPostException e){
         log.error(e.getErrorMessage(), e);
         return new ResponseEntity<>(new MessageError(HttpStatus.BAD_REQUEST.value(), e.getErrorMessage()), HttpStatus.BAD_REQUEST);
     }
 
     @ExceptionHandler
-    public ResponseEntity<?> catchUpdatingEmployeeException(UpdatingEmployeeException e){
-        log.error(e.getErrorMessage(), e);
-        return new ResponseEntity<>(new MessageError(HttpStatus.BAD_REQUEST.value(), e.getErrorMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    public ResponseEntity<?> catchNotFoundEmployeeException(NotFoundEmployeeException e){
+    public ResponseEntity<MessageError> catchNotFoundEmployeeException(NotFoundEmployeeException e){
         log.error(e.getErrorMessage(), e);
         return new ResponseEntity<>(new MessageError(HttpStatus.NOT_FOUND.value(), e.getErrorMessage()), HttpStatus.NOT_FOUND);
     }

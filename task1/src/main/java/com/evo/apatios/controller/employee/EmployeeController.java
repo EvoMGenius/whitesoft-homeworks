@@ -1,14 +1,18 @@
-package com.evo.apatios.controller;
+package com.evo.apatios.controller.employee;
 
 import com.evo.apatios.action.CreationEmployeeAction;
-import com.evo.apatios.action.UpdateEmployeeAction;
+import com.evo.apatios.action.UpdatingEmployeeAction;
+import com.evo.apatios.action.argument.UpdatingEmployeeActionArgument;
+import com.evo.apatios.controller.employee.mapper.EmployeeMapper;
+import com.evo.apatios.dto.transfer.New;
+import com.evo.apatios.dto.transfer.Update;
 import com.evo.apatios.exception.NotFoundEmployeeException;
-import com.evo.apatios.mapper.EmployeeMapper;
 import com.evo.apatios.dto.EmployeeDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
-import com.evo.apatios.service.EmployeeService;
+import com.evo.apatios.service.employee.EmployeeService;
 import com.evo.apatios.service.params.SearchParams;
 
 import java.util.List;
@@ -17,23 +21,17 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/employee")
+@RequiredArgsConstructor
 public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final CreationEmployeeAction creationEmployeeAction;
-    private final UpdateEmployeeAction  updateEmployeeAction;
     private final EmployeeMapper employeeMapper;
+    private final UpdatingEmployeeAction updatingEmployeeAction;
 
-    @Autowired
-    public EmployeeController(EmployeeService employeeService, CreationEmployeeAction creationEmployeeAction, UpdateEmployeeAction updateEmployeeAction, EmployeeMapper employeeMapper) {
-        this.employeeService = employeeService;
-        this.creationEmployeeAction = creationEmployeeAction;
-        this.updateEmployeeAction = updateEmployeeAction;
-        this.employeeMapper = employeeMapper;
-    }
-    @GetMapping()
+    @GetMapping("/all")
     public List<EmployeeDto> findAllEmployees(SearchParams searchParams){
-        return employeeService.getEmployeesWithSearchParams(searchParams).stream()
+        return employeeService.getEmployeeList(searchParams).stream()
                 .map(employeeMapper::entityToDto)
                 .collect(Collectors.toList());
     }
@@ -43,7 +41,8 @@ public class EmployeeController {
         return employeeMapper.entityToDto(employeeService.findById(id).orElseThrow(NotFoundEmployeeException::new));
     }
     @PostMapping
-    public EmployeeDto create(@RequestBody EmployeeDto employeeDto){
+    public EmployeeDto create(@RequestBody
+                                  @Validated(New.class) EmployeeDto employeeDto){
         return employeeMapper.entityToDto(
                 creationEmployeeAction.execute(
                         employeeMapper.dtoToCreationActionArgument(employeeDto)
@@ -51,11 +50,11 @@ public class EmployeeController {
     }
 
     @PutMapping
-    public EmployeeDto update(@RequestBody EmployeeDto employeeDto){
+    public EmployeeDto update(@RequestBody
+                                  @Validated(Update.class) EmployeeDto employeeDto){
         return employeeMapper.entityToDto(
-                updateEmployeeAction.execute(
-                        employeeMapper.dtoToUpdateActionArgument(employeeDto)
-                )
+                updatingEmployeeAction.execute(
+                        employeeMapper.dtoToUpdatingActionArgument(employeeDto))
         );
     }
 
