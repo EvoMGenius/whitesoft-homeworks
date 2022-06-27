@@ -4,11 +4,8 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@AllArgsConstructor
-@EqualsAndHashCode
-@NoArgsConstructor
+@Data
+@Builder
 public class SearchParams {
     private String firstName;
     private String lastName;
