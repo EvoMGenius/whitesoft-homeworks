@@ -1,8 +1,7 @@
 package com.evo.apatios.action;
 
 import com.evo.apatios.action.argument.CreationEmployeeActionArgument;
-import com.evo.apatios.service.argument.CreationEmployeeArgument;
-import com.evo.apatios.exception.NotFoundPostException;
+import com.evo.apatios.service.argument.CreationEmployeeAgrument;
 import com.evo.apatios.model.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -18,7 +17,7 @@ public class CreationEmployeeAction {
     public final PostService postService;
 
     public Employee execute(CreationEmployeeActionArgument employeeArgument){
-        CreationEmployeeArgument argumentForService = CreationEmployeeArgument.builder()
+        CreationEmployeeAgrument argumentForService = CreationEmployeeAgrument.builder()
                 .id(employeeArgument.getId())
                 .firstName(employeeArgument.getFirstName())
                 .lastName(employeeArgument.getLastName())

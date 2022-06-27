@@ -1,7 +1,7 @@
 package com.evo.apatios.service.employee;
 
 import com.evo.apatios.repository.EmployeeRepository;
-import com.evo.apatios.service.argument.CreationEmployeeArgument;
+import com.evo.apatios.service.argument.CreationEmployeeAgrument;
 import com.evo.apatios.service.argument.UpdatingEmployeeArgument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -18,7 +18,7 @@ public class EmployeeService {
 
     private final EmployeeRepository repository;
 
-    public Employee create(CreationEmployeeArgument employee){
+    public Employee create(CreationEmployeeAgrument employee){
         return repository.save(Employee.builder()
                 .id(employee.getId())
                 .firstName(employee.getFirstName())

@@ -2,7 +2,6 @@ package com.evo.apatios.action;
 
 import com.evo.apatios.action.argument.UpdatingEmployeeActionArgument;
 import com.evo.apatios.model.Employee;
-import com.evo.apatios.service.argument.CreationEmployeeArgument;
 import com.evo.apatios.service.argument.UpdatingEmployeeArgument;
 import com.evo.apatios.service.employee.EmployeeService;
 import com.evo.apatios.service.post.PostService;
