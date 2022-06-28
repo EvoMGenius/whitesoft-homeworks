@@ -53,6 +53,16 @@
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>com.jupiter-tools</groupId>
+            <artifactId>spring-test-jpa</artifactId>
+            <version>0.2</version>
+        </dependency>
+        <dependency>
+            <groupId>com.jupiter-tools</groupId>
+            <artifactId>spring-test-postgres</artifactId>
+            <version>0.2</version>
+        </dependency>
 
         <dependency>
             <groupId>org.springframework.boot</groupId>

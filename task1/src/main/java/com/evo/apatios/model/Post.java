@@ -1,20 +1,18 @@
 package com.evo.apatios.model;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
+import javax.persistence.*;
+import java.util.List;
 import java.util.UUID;
-
-@AllArgsConstructor
-@Getter
-@Setter
-@EqualsAndHashCode
+@Entity
+@Data
+@NoArgsConstructor
 public class Post {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private UUID id;
 
     private String name;
-
 }
