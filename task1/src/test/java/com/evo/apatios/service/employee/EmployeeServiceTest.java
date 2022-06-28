@@ -8,7 +8,6 @@ import com.evo.apatios.service.argument.UpdatingEmployeeArgument;
 import com.evo.apatios.service.params.SearchParams;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.function.Executable;
 import org.mockito.Mockito;
 
 import java.util.*;
@@ -33,6 +32,7 @@ class EmployeeServiceTest {
     @Test
     void getEmployeeListWithAllCompletedSearchParams() {
         //arrange
+
         SearchParams searchParams = SearchParams.builder()
                 .firstName("Ivan")
                 .lastName("Ivanov")
@@ -58,6 +58,7 @@ class EmployeeServiceTest {
     @Test
     void create() {
         //arrange
+
         UUID empId = UUID.randomUUID();
         Employee expectedEmployee = Employee.builder()
                 .id(empId)
@@ -71,9 +72,13 @@ class EmployeeServiceTest {
                 .post(new Post(null, "post name"))
                 .build();
         when(repository.save(any())).thenReturn(expectedEmployee);
+
         //act
+
         Employee employee = service.create(argument);
+
         //assert
+
         Assertions.assertEquals(employee, expectedEmployee);
 
         verify(repository).save(any());
@@ -82,6 +87,7 @@ class EmployeeServiceTest {
     @Test
     void update() {
         //arrange
+
         UUID empId = UUID.randomUUID();
         Employee expectedEmployee = Employee.builder()
                 .id(empId)
@@ -95,9 +101,13 @@ class EmployeeServiceTest {
                 .post(new Post(null, "post name"))
                 .build();
         when(repository.save(any())).thenReturn(expectedEmployee);
+
         //act
+
         Employee employee = service.update(argument);
+
         //assert
+
         Assertions.assertEquals(employee, expectedEmployee);
 
         verify(repository).save(any());
@@ -134,6 +144,7 @@ class EmployeeServiceTest {
         //arrange
 
         when(repository.findById(any())).thenReturn(Optional.empty());
+
         //act
 
         Optional<Employee> employee = service.findById(firstEmployeeId);
