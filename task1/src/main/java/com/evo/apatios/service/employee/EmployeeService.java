@@ -2,7 +2,7 @@ package com.evo.apatios.service.employee;
 
 import com.evo.apatios.exception.NotFoundEmployeeException;
 import com.evo.apatios.repository.EmployeeRepository;
-import com.evo.apatios.service.argument.employee.CreateEmployeeAgrument;
+import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,7 +19,7 @@ public class EmployeeService {
 
     private final EmployeeRepository repository;
 
-    public Employee create(CreateEmployeeAgrument employee){
+    public Employee create(CreateEmployeeArgument employee){
         return repository.save(Employee.builder()
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())

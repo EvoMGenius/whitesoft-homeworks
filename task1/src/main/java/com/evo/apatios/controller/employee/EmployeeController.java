@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/employee")
 @RequiredArgsConstructor
-public class EmployeeController { //todo добавить логирование обновление пользователя и фиксировать обращения по апи. *фиксация того с какого айпи пишут. ** вкл/выкл логирование в настройках через параметр.
+public class EmployeeController {
 
     private final EmployeeService employeeService;
     private final CreateEmployeeAction createEmployeeAction;

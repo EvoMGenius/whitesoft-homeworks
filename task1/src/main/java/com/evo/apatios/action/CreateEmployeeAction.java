@@ -1,7 +1,7 @@
 package com.evo.apatios.action;
 
 import com.evo.apatios.action.argument.CreateEmployeeActionArgument;
-import com.evo.apatios.service.argument.employee.CreateEmployeeAgrument;
+import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.model.Employee;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
@@ -17,7 +17,7 @@ public class CreateEmployeeAction {
     public final PostService postService;
 
     public Employee execute(CreateEmployeeActionArgument employeeArgument){
-        CreateEmployeeAgrument argumentForService = CreateEmployeeAgrument.builder()
+        CreateEmployeeArgument argumentForService = CreateEmployeeArgument.builder()
                 .firstName(employeeArgument.getFirstName())
                 .lastName(employeeArgument.getLastName())
                 .description(employeeArgument.getDescription())

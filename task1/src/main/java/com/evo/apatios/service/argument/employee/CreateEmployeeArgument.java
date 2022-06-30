@@ -10,7 +10,7 @@ import java.util.List;
 
 @Data
 @Builder
-public class CreateEmployeeAgrument {
+public class CreateEmployeeArgument {
 
     private String firstName;
     private String lastName;

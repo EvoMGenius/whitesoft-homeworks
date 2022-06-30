@@ -4,7 +4,7 @@ import com.evo.apatios.exception.NotFoundEmployeeException;
 import com.evo.apatios.model.Employee;
 import com.evo.apatios.model.Post;
 import com.evo.apatios.repository.EmployeeRepository;
-import com.evo.apatios.service.argument.employee.CreateEmployeeAgrument;
+import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
 import com.evo.apatios.service.params.SearchParams;
 import org.junit.jupiter.api.Assertions;
@@ -61,7 +61,7 @@ class EmployeeServiceTest {
                 .lastName("Ivanchenko")
                 .post(new Post(null,"post name")).build();
 
-        CreateEmployeeAgrument argument = CreateEmployeeAgrument.builder()
+        CreateEmployeeArgument argument = CreateEmployeeArgument.builder()
                 .firstName("Victor")
                 .lastName("Ivanchenko")
                 .post(new Post(null, "post name"))
