@@ -1,16 +1,13 @@
 package com.evo.apatios.controller.employee;
 
-import com.evo.apatios.action.CreationEmployeeAction;
-import com.evo.apatios.action.UpdatingEmployeeAction;
-import com.evo.apatios.action.argument.UpdatingEmployeeActionArgument;
+import com.evo.apatios.action.CreateEmployeeAction;
+import com.evo.apatios.action.UpdateEmployeeAction;
 import com.evo.apatios.controller.employee.mapper.EmployeeMapper;
-import com.evo.apatios.dto.transfer.New;
-import com.evo.apatios.dto.transfer.Update;
-import com.evo.apatios.exception.NotFoundEmployeeException;
-import com.evo.apatios.dto.EmployeeDto;
+import com.evo.apatios.dto.input.employee.CreateEmployeeDto;
+import com.evo.apatios.dto.input.employee.UpdateEmployeeDto;
+import com.evo.apatios.dto.output.employee.EmployeeDto;
+import com.evo.apatios.model.Employee;
 import lombok.RequiredArgsConstructor;
-import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.evo.apatios.service.employee.EmployeeService;
 import com.evo.apatios.service.params.SearchParams;
@@ -22,14 +19,14 @@ import java.util.stream.Collectors;
 @RestController
 @RequestMapping("/employee")
 @RequiredArgsConstructor
-public class EmployeeController {
+public class EmployeeController { //todo добавить логирование обновление пользователя и фиксировать обращения по апи. *фиксация того с какого айпи пишут. ** вкл/выкл логирование в настройках через параметр.
 
     private final EmployeeService employeeService;
-    private final CreationEmployeeAction creationEmployeeAction;
+    private final CreateEmployeeAction createEmployeeAction;
     private final EmployeeMapper employeeMapper;
-    private final UpdatingEmployeeAction updatingEmployeeAction;
+    private final UpdateEmployeeAction updateEmployeeAction;
 
-    @GetMapping("/all")
+    @GetMapping("/list")
     public List<EmployeeDto> findAllEmployees(SearchParams searchParams){
         return employeeService.getEmployeeList(searchParams).stream()
                 .map(employeeMapper::entityToDto)
@@ -38,28 +35,24 @@ public class EmployeeController {
 
     @GetMapping("/{id}")
     public EmployeeDto findById(@PathVariable UUID id){
-        return employeeMapper.entityToDto(employeeService.findById(id).orElseThrow(NotFoundEmployeeException::new));
+        Employee employee = employeeService.getExisting(id);
+        return employeeMapper.entityToDto(employee);
     }
     @PostMapping
-    public EmployeeDto create(@RequestBody
-                                  @Validated(New.class) EmployeeDto employeeDto){
-        return employeeMapper.entityToDto(
-                creationEmployeeAction.execute(
-                        employeeMapper.dtoToCreationActionArgument(employeeDto)
-                ));
+    public EmployeeDto create(@RequestBody CreateEmployeeDto employeeDto){
+        Employee createdEmployee = createEmployeeAction.execute(
+                employeeMapper.createDtoToArgument(employeeDto));
+        return employeeMapper.entityToDto(createdEmployee);
     }
 
     @PutMapping
-    public EmployeeDto update(@RequestBody
-                                  @Validated(Update.class) EmployeeDto employeeDto){
-        return employeeMapper.entityToDto(
-                updatingEmployeeAction.execute(
-                        employeeMapper.dtoToUpdatingActionArgument(employeeDto))
-        );
+    public EmployeeDto update(@RequestBody UpdateEmployeeDto employeeDto){
+        Employee updatedEmployee = updateEmployeeAction.execute(
+                employeeMapper.updateDtoToArgument(employeeDto));
+        return employeeMapper.entityToDto(updatedEmployee);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteById(@PathVariable UUID id){
         employeeService.deleteById(id);
     }

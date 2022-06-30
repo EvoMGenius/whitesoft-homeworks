@@ -1,13 +1,13 @@
 package com.evo.apatios.controller.post;
 
 import com.evo.apatios.controller.post.mapper.PostMapper;
-import com.evo.apatios.dto.PostDto;
-import com.evo.apatios.dto.transfer.New;
-import com.evo.apatios.dto.transfer.Update;
+import com.evo.apatios.dto.input.post.CreatePostDto;
+import com.evo.apatios.dto.input.post.UpdatePostDto;
+import com.evo.apatios.dto.output.post.PostDto;
+import com.evo.apatios.model.Post;
 import com.evo.apatios.service.post.PostService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,19 +33,18 @@ public class PostController {
     }
 
     @PostMapping
-    public PostDto create(@RequestBody
-                              @Validated(New.class) PostDto postDto){
-        return postMapper.entityToDto(postService.create(postMapper.dtoToCreationArgument(postDto)));
+    public PostDto create(@RequestBody CreatePostDto postDto){
+        Post createdPost = postService.create(postMapper.createDtoToArgument(postDto));
+        return postMapper.entityToDto(createdPost);
     }
 
     @PutMapping
-    public PostDto update(@RequestBody
-                              @Validated({Update.class}) PostDto postDto){
-        return postMapper.entityToDto(postService.create(postMapper.dtoToCreationArgument(postDto)));
+    public PostDto update(@RequestBody UpdatePostDto postDto){
+        Post updatedPost = postService.update(postMapper.updateDtoToArgument(postDto));
+        return postMapper.entityToDto(updatedPost);
     }
 
     @DeleteMapping("/{id}")
-    @ResponseStatus(HttpStatus.OK)
     public void deleteById(@PathVariable UUID id){
         postService.deleteById(id);
     }

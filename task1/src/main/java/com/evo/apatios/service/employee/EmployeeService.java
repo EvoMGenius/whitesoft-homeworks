@@ -1,8 +1,9 @@
 package com.evo.apatios.service.employee;
 
+import com.evo.apatios.exception.NotFoundEmployeeException;
 import com.evo.apatios.repository.EmployeeRepository;
-import com.evo.apatios.service.argument.CreationEmployeeAgrument;
-import com.evo.apatios.service.argument.UpdatingEmployeeArgument;
+import com.evo.apatios.service.argument.employee.CreateEmployeeAgrument;
+import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.evo.apatios.model.Employee;
@@ -18,9 +19,8 @@ public class EmployeeService {
 
     private final EmployeeRepository repository;
 
-    public Employee create(CreationEmployeeAgrument employee){
+    public Employee create(CreateEmployeeAgrument employee){
         return repository.save(Employee.builder()
-                .id(employee.getId())
                 .firstName(employee.getFirstName())
                 .lastName(employee.getLastName())
                 .description(employee.getDescription())
@@ -31,17 +31,10 @@ public class EmployeeService {
                 .build());
     }
 
-    public Employee update(UpdatingEmployeeArgument employee){
-        return repository.save(Employee.builder()
-                .id(employee.getId())
-                .firstName(employee.getFirstName())
-                .lastName(employee.getLastName())
-                .description(employee.getDescription())
-                .post(employee.getPost())
-                .contacts(employee.getContacts())
-                .characteristics(employee.getCharacteristics())
-                .jobType(employee.getJobType())
-                .build());
+    public Employee update(UpdateEmployeeArgument employee){
+        Employee existedEmployee = repository.findById(employee.getId()).orElseThrow(NotFoundEmployeeException::new);
+        existedEmployee.setAllFields(employee);
+        return repository.save(existedEmployee);
     }
 
     public List<Employee> getEmployeeList(SearchParams params) {
@@ -68,7 +61,7 @@ public class EmployeeService {
         repository.deleteById(id);
     }
 
-    public Optional<Employee> findById(UUID id) {
-        return repository.findById(id);
+    public Employee getExisting(UUID id) {
+        return repository.findById(id).orElseThrow(NotFoundEmployeeException::new);
     }
 }

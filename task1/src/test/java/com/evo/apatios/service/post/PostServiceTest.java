@@ -3,7 +3,7 @@ package com.evo.apatios.service.post;
 import com.evo.apatios.exception.NotFoundPostException;
 import com.evo.apatios.model.Post;
 import com.evo.apatios.repository.PostRepository;
-import com.evo.apatios.service.argument.CreationPostArgument;
+import com.evo.apatios.service.argument.post.CreatePostArgument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
@@ -24,17 +24,13 @@ class PostServiceTest {
     @Test
     void create() {
         //arrange
-
-        CreationPostArgument argument = new CreationPostArgument(UUID.randomUUID(), "post name");
-        when(repository.save(any())).thenReturn(new Post(argument.getId(), argument.getName()));
-
+        UUID postId = UUID.randomUUID();
+        CreatePostArgument argument = new CreatePostArgument( "post name");
+        when(repository.save(any())).thenReturn(new Post(postId, argument.getName()));
         //act
-
         Post post = service.create(argument);
-
         //assert
-
-        Assertions.assertEquals(post , new Post(argument.getId(), argument.getName()));
+        Assertions.assertEquals(post , new Post(postId, argument.getName()));
 
         verify(repository).save(any());
     }
@@ -43,17 +39,12 @@ class PostServiceTest {
     @Test
     void getExistingById() {
         //arrange
-
         UUID postId = UUID.randomUUID();
 
         when(repository.findById(postId)).thenReturn(Optional.of(new Post(postId, "post name")));
-
         //act
-
         Post existingById = service.getExistingById(postId);
-
         //assert
-
         Assertions.assertNotNull(existingById);
 
         verify(repository).findById(postId);
@@ -62,13 +53,10 @@ class PostServiceTest {
     @Test
     void getNotExistingById(){
         //arrange
-
         UUID postId = UUID.randomUUID();
 
         when(repository.findById(postId)).thenReturn(Optional.empty());
-
         //act + assert
-
         Assertions.assertThrows(NotFoundPostException.class,
                 () -> service.getExistingById(postId));
 

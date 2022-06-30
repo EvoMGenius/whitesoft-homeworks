@@ -1,8 +1,7 @@
-package com.evo.apatios.action.argument;
+package com.evo.apatios.dto.input.employee;
 
 import com.evo.apatios.model.Contacts;
 import com.evo.apatios.model.JobType;
-import com.evo.apatios.model.Post;
 import lombok.Builder;
 import lombok.Data;
 
@@ -11,7 +10,8 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class CreationEmployeeActionArgument {
+public class UpdateEmployeeDto {
+
     private UUID id;
 
     private String firstName;

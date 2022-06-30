@@ -10,8 +10,7 @@ import java.util.UUID;
 
 @Data
 @Builder
-public class UpdatingEmployeeActionArgument {
-    private UUID id;
+public class CreateEmployeeActionArgument {
 
     private String firstName;
     private String lastName;

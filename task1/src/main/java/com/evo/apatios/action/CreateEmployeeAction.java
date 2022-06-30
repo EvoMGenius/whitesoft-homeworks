@@ -1,24 +1,23 @@
 package com.evo.apatios.action;
 
-import com.evo.apatios.action.argument.UpdatingEmployeeActionArgument;
+import com.evo.apatios.action.argument.CreateEmployeeActionArgument;
+import com.evo.apatios.service.argument.employee.CreateEmployeeAgrument;
 import com.evo.apatios.model.Employee;
-import com.evo.apatios.service.argument.UpdatingEmployeeArgument;
-import com.evo.apatios.service.employee.EmployeeService;
-import com.evo.apatios.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
+import com.evo.apatios.service.employee.EmployeeService;
+import com.evo.apatios.service.post.PostService;
 
 @Component
 @RequiredArgsConstructor
-public class UpdatingEmployeeAction {
+public class CreateEmployeeAction {
 
     public final EmployeeService employeeService;
 
     public final PostService postService;
 
-    public Employee execute(UpdatingEmployeeActionArgument employeeArgument) {
-        UpdatingEmployeeArgument argumentForService = UpdatingEmployeeArgument.builder()
-                .id(employeeArgument.getId())
+    public Employee execute(CreateEmployeeActionArgument employeeArgument){
+        CreateEmployeeAgrument argumentForService = CreateEmployeeAgrument.builder()
                 .firstName(employeeArgument.getFirstName())
                 .lastName(employeeArgument.getLastName())
                 .description(employeeArgument.getDescription())
@@ -28,7 +27,6 @@ public class UpdatingEmployeeAction {
                 .jobType(employeeArgument.getJobType())
                 .build();
 
-        return employeeService.update(argumentForService);
-
+        return employeeService.create(argumentForService);
     }
 }

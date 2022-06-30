@@ -1,18 +1,21 @@
 package com.evo.apatios.controller.post.mapper;
 
-import com.evo.apatios.service.argument.CreationPostArgument;
-import com.evo.apatios.dto.PostDto;
+import com.evo.apatios.dto.input.post.CreatePostDto;
+import com.evo.apatios.dto.input.post.UpdatePostDto;
+import com.evo.apatios.dto.output.post.PostDto;
 import com.evo.apatios.model.Post;
+import com.evo.apatios.service.argument.post.CreatePostArgument;
+import com.evo.apatios.service.argument.post.UpdatePostArgument;
+import org.mapstruct.Mapper;
 import org.springframework.stereotype.Component;
 
 @Component
-public class PostMapper {
+@Mapper
+public interface PostMapper {
 
-    public CreationPostArgument dtoToCreationArgument(PostDto postDto) {
-        return new CreationPostArgument(postDto.getId(), postDto.getName());
-    }
+    PostDto entityToDto(Post post);
 
-    public PostDto entityToDto(Post post) {
-        return new PostDto(post.getId(), post.getName());
-    }
+    CreatePostArgument createDtoToArgument(CreatePostDto dto);
+
+    UpdatePostArgument updateDtoToArgument(UpdatePostDto dto);
 }
