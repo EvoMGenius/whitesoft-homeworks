@@ -7,6 +7,7 @@ import com.evo.apatios.action.argument.UpdateEmployeeActionArgument;
 import com.evo.apatios.dto.output.employee.EmployeeDto;
 import com.evo.apatios.model.Employee;
 import org.mapstruct.Mapper;
+import org.mapstruct.Mapping;
 import org.mapstruct.factory.Mappers;
 
 @Mapper
@@ -18,5 +19,6 @@ public interface EmployeeMapper {
 
     UpdateEmployeeActionArgument updateDtoToArgument(UpdateEmployeeDto dto);
 
+    @Mapping(target = "postId",source ="post.id")
     EmployeeDto entityToDto(Employee employee);
 }
