@@ -7,11 +7,12 @@ import com.evo.apatios.model.Post;
 import com.evo.apatios.service.argument.post.CreatePostArgument;
 import com.evo.apatios.service.argument.post.UpdatePostArgument;
 import org.mapstruct.Mapper;
-import org.springframework.stereotype.Component;
+import org.mapstruct.factory.Mappers;
 
-@Component
 @Mapper
 public interface PostMapper {
+
+    PostMapper POST_MAPPER = Mappers.getMapper(PostMapper.class);
 
     PostDto entityToDto(Post post);
 
