@@ -12,29 +12,22 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 public class GlobalExceptionHandler {
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<MessageError> catchNotFoundPostException(NotFoundPostException e){
+    public MessageError catchNotFoundException(NotFoundException e){
         log.error(e.getErrorMessage(), e);
-        return new ResponseEntity<>(new MessageError(e.getErrorMessage()), HttpStatus.NOT_FOUND);
+        return new MessageError(e.getErrorMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<MessageError> catchCreationEmployeeException(CreationEmployeeException e){
+    public MessageError catchCreationEmployeeException(CreationEmployeeException e){
         log.error(e.getErrorMessage(), e);
-        return new ResponseEntity<>(new MessageError(e.getErrorMessage()), HttpStatus.BAD_REQUEST);
+        return new MessageError(e.getErrorMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public ResponseEntity<MessageError> catchCreationPostException(CreationPostException e){
+    public MessageError catchCreationPostException(CreationPostException e){
         log.error(e.getErrorMessage(), e);
-        return new ResponseEntity<>(new MessageError(e.getErrorMessage()), HttpStatus.BAD_REQUEST);
-    }
-
-    @ExceptionHandler
-    @ResponseStatus(HttpStatus.NOT_FOUND)
-    public ResponseEntity<MessageError> catchNotFoundEmployeeException(NotFoundEmployeeException e){
-        log.error(e.getErrorMessage(), e);
-        return new ResponseEntity<>(new MessageError(e.getErrorMessage()), HttpStatus.NOT_FOUND);
+        return new MessageError(e.getErrorMessage());
     }
 }

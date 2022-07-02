@@ -29,13 +29,14 @@ public class Post {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Post)) return false;
+        if(o == null) return false;
+        if(getClass() != o.getClass()) return false;
         Post post = (Post) o;
-        return getId().equals(post.getId()) && Objects.equals(getName(), post.getName());
+        return Objects.equals(id, post.getId());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getName());
+        return Objects.hash(id);
     }
 }

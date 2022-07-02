@@ -1,6 +1,6 @@
 package com.evo.apatios.service.employee;
 
-import com.evo.apatios.exception.NotFoundEmployeeException;
+import com.evo.apatios.exception.NotFoundException;
 import com.evo.apatios.model.Employee;
 import com.evo.apatios.model.Post;
 import com.evo.apatios.repository.EmployeeRepository;
@@ -131,7 +131,7 @@ class EmployeeServiceTest {
         //arrange
         when(repository.findById(any())).thenReturn(Optional.empty());
         //act+assert
-        Assertions.assertThrows(NotFoundEmployeeException.class , ()->{
+        Assertions.assertThrows(NotFoundException.class , ()->{
             service.getExisting(firstEmployeeId);
         });
 

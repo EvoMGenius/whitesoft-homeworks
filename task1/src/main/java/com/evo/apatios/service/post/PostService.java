@@ -1,6 +1,6 @@
 package com.evo.apatios.service.post;
 
-import com.evo.apatios.exception.NotFoundPostException;
+import com.evo.apatios.exception.NotFoundException;
 import com.evo.apatios.model.Post;
 import com.evo.apatios.repository.PostRepository;
 import com.evo.apatios.service.argument.post.CreatePostArgument;
@@ -10,7 +10,6 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.util.List;
-import java.util.Optional;
 import java.util.UUID;
 
 @Service
@@ -34,7 +33,7 @@ public class PostService {
     }
 
     public Post getExistingById(UUID id){
-        return repository.findById(id).orElseThrow(NotFoundPostException::new);
+        return repository.findById(id).orElseThrow(()-> new NotFoundException("Post.class","post with this id is not found", id));
     }
     @PostConstruct
     public void init(){
@@ -44,7 +43,8 @@ public class PostService {
     }
 
     public Post update(UpdatePostArgument updatePostArgument) {
-        Post existedPost = repository.findById(updatePostArgument.getId()).orElseThrow(NotFoundPostException::new);
+        UUID id = updatePostArgument.getId();
+        Post existedPost = repository.findById(id).orElseThrow(()->new NotFoundException("Post.class","post with this id is not found", id));
         existedPost.setName(updatePostArgument.getName());
         return repository.save(existedPost);
     }

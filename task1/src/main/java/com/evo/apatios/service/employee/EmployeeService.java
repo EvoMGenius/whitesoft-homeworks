@@ -1,6 +1,6 @@
 package com.evo.apatios.service.employee;
 
-import com.evo.apatios.exception.NotFoundEmployeeException;
+import com.evo.apatios.exception.NotFoundException;
 import com.evo.apatios.repository.EmployeeRepository;
 import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
@@ -32,7 +32,8 @@ public class EmployeeService {
     }
 
     public Employee update(UpdateEmployeeArgument employee){
-        Employee existedEmployee = repository.findById(employee.getId()).orElseThrow(NotFoundEmployeeException::new);
+        UUID id = employee.getId();
+        Employee existedEmployee = repository.findById(id).orElseThrow(()-> new NotFoundException("Employee.class","Employee with this id is not found", id));
         existedEmployee.setAllFields(employee);
         return repository.save(existedEmployee);
     }
@@ -62,6 +63,6 @@ public class EmployeeService {
     }
 
     public Employee getExisting(UUID id) {
-        return repository.findById(id).orElseThrow(NotFoundEmployeeException::new);
+        return repository.findById(id).orElseThrow(()-> new NotFoundException("Employee.class","Employee with this id is not found", id));
     }
 }

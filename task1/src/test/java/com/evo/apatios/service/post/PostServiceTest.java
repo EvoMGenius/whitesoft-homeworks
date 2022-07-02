@@ -1,6 +1,6 @@
 package com.evo.apatios.service.post;
 
-import com.evo.apatios.exception.NotFoundPostException;
+import com.evo.apatios.exception.NotFoundException;
 import com.evo.apatios.model.Post;
 import com.evo.apatios.repository.PostRepository;
 import com.evo.apatios.service.argument.post.CreatePostArgument;
@@ -57,7 +57,7 @@ class PostServiceTest {
 
         when(repository.findById(postId)).thenReturn(Optional.empty());
         //act + assert
-        Assertions.assertThrows(NotFoundPostException.class,
+        Assertions.assertThrows(NotFoundException.class,
                 () -> service.getExistingById(postId));
 
         verify(repository).findById(postId);

@@ -66,13 +66,14 @@ public class Employee {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Employee)) return false;
+        if(o==null) return false;
+        if(getClass() != o.getClass()) return false;
         Employee employee = (Employee) o;
-        return getId().equals(employee.getId()) && Objects.equals(getFirstName(), employee.getFirstName()) && Objects.equals(getLastName(), employee.getLastName()) && Objects.equals(getDescription(), employee.getDescription()) && Objects.equals(getPost(), employee.getPost()) && Objects.equals(getContacts(), employee.getContacts()) && Objects.equals(getCharacteristics(), employee.getCharacteristics()) && getJobType() == employee.getJobType();
+        return Objects.equals(id,employee.getId()) && Objects.equals(post, employee.getPost());
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(getId(), getFirstName(), getLastName(), getDescription(), getPost(), getContacts(), getCharacteristics(), getJobType());
+        return Objects.hash(id, post);
     }
 }

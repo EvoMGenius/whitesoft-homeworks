@@ -1,7 +1,7 @@
 package com.evo.apatios.action;
 
 import com.evo.apatios.action.argument.CreateEmployeeActionArgument;
-import com.evo.apatios.exception.NotFoundPostException;
+import com.evo.apatios.exception.NotFoundException;
 import com.evo.apatios.model.Employee;
 import com.evo.apatios.model.Post;
 import com.evo.apatios.service.employee.EmployeeService;
@@ -68,7 +68,7 @@ class CreateEmployeeActionTest {
 
         Post post = new Post(postId, "post name");
 
-        when(postService.getExistingById(postId)).thenThrow(NotFoundPostException.class);
+        when(postService.getExistingById(postId)).thenThrow(NotFoundException.class);
 
         when(employeeService.create(any())).thenReturn(Employee.builder()
                 .id(employeeId)
@@ -76,7 +76,7 @@ class CreateEmployeeActionTest {
                 .post(post)
                 .build());
         //act + assert
-        Assertions.assertThrows(NotFoundPostException.class, ()->{
+        Assertions.assertThrows(NotFoundException.class, ()->{
             action.execute(argument);
         });
 
