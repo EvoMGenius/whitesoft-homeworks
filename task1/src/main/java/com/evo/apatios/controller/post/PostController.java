@@ -40,7 +40,6 @@ public class PostController {
     @PutMapping("/{id}")
     public PostDto update(@PathVariable UUID id,
                           @RequestBody UpdatePostDto postDto){
-
         Post updatedPost = postService.update(id,POST_MAPPER.updateDtoToArgument(postDto));
         return POST_MAPPER.entityToDto(updatedPost);
     }

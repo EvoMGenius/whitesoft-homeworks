@@ -38,6 +38,7 @@ public class EmployeeController {
         Employee employee = employeeService.getExisting(id);
         return EMPLOYEE_MAPPER.entityToDto(employee);
     }
+
     @PostMapping
     public EmployeeDto create(@RequestBody CreateEmployeeDto employeeDto){
         Employee createdEmployee = createEmployeeAction.execute(
@@ -48,7 +49,6 @@ public class EmployeeController {
     @PutMapping("/{id}")
     public EmployeeDto update(@PathVariable UUID id,
                               @RequestBody UpdateEmployeeDto employeeDto){
-
         Employee updatedEmployee = updateEmployeeAction.execute( id,
                 EMPLOYEE_MAPPER.updateDtoToArgument(employeeDto));
         return EMPLOYEE_MAPPER.entityToDto(updatedEmployee);

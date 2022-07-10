@@ -31,6 +31,5 @@ public class UpdateEmployeeAction {
                 .build();
 
         return employeeService.update(argumentForService);
-
     }
 }
