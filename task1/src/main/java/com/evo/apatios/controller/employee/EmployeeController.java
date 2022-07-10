@@ -2,7 +2,6 @@ package com.evo.apatios.controller.employee;
 
 import com.evo.apatios.action.CreateEmployeeAction;
 import com.evo.apatios.action.UpdateEmployeeAction;
-import com.evo.apatios.controller.employee.mapper.EmployeeMapper;
 import com.evo.apatios.dto.input.employee.CreateEmployeeDto;
 import com.evo.apatios.dto.input.employee.UpdateEmployeeDto;
 import com.evo.apatios.dto.output.employee.EmployeeDto;
@@ -46,9 +45,11 @@ public class EmployeeController {
         return EMPLOYEE_MAPPER.entityToDto(createdEmployee);
     }
 
-    @PutMapping
-    public EmployeeDto update(@RequestBody UpdateEmployeeDto employeeDto){
-        Employee updatedEmployee = updateEmployeeAction.execute(
+    @PutMapping("/{id}")
+    public EmployeeDto update(@PathVariable UUID id,
+                              @RequestBody UpdateEmployeeDto employeeDto){
+
+        Employee updatedEmployee = updateEmployeeAction.execute( id,
                 EMPLOYEE_MAPPER.updateDtoToArgument(employeeDto));
         return EMPLOYEE_MAPPER.entityToDto(updatedEmployee);
     }

@@ -32,9 +32,16 @@ public class EmployeeService {
     }
 
     public Employee update(UpdateEmployeeArgument employee){
-        UUID id = employee.getId();
-        Employee existedEmployee = repository.findById(id).orElseThrow(()-> new NotFoundException("Employee.class","Employee with this id is not found", id));
-        existedEmployee.setAllFields(employee);
+        Employee existedEmployee = getExisting(employee.getId());
+
+        existedEmployee.setFirstName(employee.getFirstName());
+        existedEmployee.setLastName(employee.getLastName());
+        existedEmployee.setDescription(existedEmployee.getDescription());
+        existedEmployee.setContacts(employee.getContacts());
+        existedEmployee.setCharacteristics(employee.getCharacteristics());
+        existedEmployee.setPost(employee.getPost());
+        existedEmployee.setJobType(employee.getJobType());
+
         return repository.save(existedEmployee);
     }
 
@@ -63,6 +70,6 @@ public class EmployeeService {
     }
 
     public Employee getExisting(UUID id) {
-        return repository.findById(id).orElseThrow(()-> new NotFoundException("Employee.class","Employee with this id is not found", id));
+        return repository.findById(id).orElseThrow(()-> new NotFoundException("Employee with this id is not found", id));
     }
 }

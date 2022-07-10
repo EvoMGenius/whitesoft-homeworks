@@ -1,19 +1,17 @@
 package com.evo.apatios.exception;
 
+import lombok.AllArgsConstructor;
+import lombok.Getter;
+import lombok.Setter;
+
+@Getter
+@Setter
+@AllArgsConstructor
 public class CreationPostException extends RuntimeException{
+
     private String errorMessage;
 
-    public String getErrorMessage() {
-        return errorMessage;
-    }
-
-    public void setErrorMessage(String errorMessage) {
-        this.errorMessage = errorMessage;
-    }
     public CreationPostException (){
         this.errorMessage = "CREATION POST EXCEPTION";
-    }
-    public CreationPostException (String errorMessage){
-        this.errorMessage = errorMessage;
     }
 }

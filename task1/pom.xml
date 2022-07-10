@@ -34,10 +34,15 @@
             <artifactId>lombok-mapstruct-binding</artifactId>
             <version>${lombok-mapstruct-binding.version}</version>
         </dependency>
-
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-webflux</artifactId>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
@@ -54,12 +59,6 @@
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
         </dependency>
-
-<!--        <dependency>-->
-<!--            <groupId>mysql</groupId>-->
-<!--            <artifactId>mysql-connector-java</artifactId>-->
-<!--            <scope>runtime</scope>-->
-<!--        </dependency>-->
 
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -82,11 +81,6 @@
             <artifactId>spring-test-postgres</artifactId>
             <version>0.4</version>
         </dependency>
-<!--        <dependency>-->
-<!--            <groupId>com.jupiter-tools</groupId>-->
-<!--            <artifactId>spring-test-mysql</artifactId>-->
-<!--            <version>0.4</version>-->
-<!--        </dependency>-->
 
     </dependencies>
 

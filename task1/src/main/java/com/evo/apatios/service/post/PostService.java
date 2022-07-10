@@ -33,7 +33,7 @@ public class PostService {
     }
 
     public Post getExistingById(UUID id){
-        return repository.findById(id).orElseThrow(()-> new NotFoundException("Post.class","post with this id is not found", id));
+        return repository.findById(id).orElseThrow(()-> new NotFoundException("post with this id is not found", id));
     }
     @PostConstruct
     public void init(){
@@ -42,9 +42,8 @@ public class PostService {
                 new Post(UUID.fromString("762d15a5-3bc9-43ef-ae96-02a680a557d0"), "Backend Middle Developer")));
     }
 
-    public Post update(UpdatePostArgument updatePostArgument) {
-        UUID id = updatePostArgument.getId();
-        Post existedPost = repository.findById(id).orElseThrow(()->new NotFoundException("Post.class","post with this id is not found", id));
+    public Post update(UUID id, UpdatePostArgument updatePostArgument) {
+        Post existedPost = getExistingById(id);
         existedPost.setName(updatePostArgument.getName());
         return repository.save(existedPost);
     }

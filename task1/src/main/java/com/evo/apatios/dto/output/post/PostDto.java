@@ -12,5 +12,4 @@ public class PostDto {
     private UUID id;
 
     private String name;
-
 }

@@ -2,8 +2,7 @@ package com.evo.apatios.dto.output.employee;
 
 import com.evo.apatios.model.Contacts;
 import com.evo.apatios.model.JobType;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 import java.util.UUID;

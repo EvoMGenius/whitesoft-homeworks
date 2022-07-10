@@ -12,8 +12,7 @@ import java.util.Optional;
 import java.util.UUID;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class PostServiceTest {
 
@@ -25,12 +24,14 @@ class PostServiceTest {
     void create() {
         //arrange
         UUID postId = UUID.randomUUID();
+        Post mock = Mockito.mock(Post.class);
         CreatePostArgument argument = new CreatePostArgument( "post name");
-        when(repository.save(any())).thenReturn(new Post(postId, argument.getName()));
+
+        when(repository.save(any())).thenReturn(mock);
         //act
         Post post = service.create(argument);
         //assert
-        Assertions.assertEquals(post , new Post(postId, argument.getName()));
+        Assertions.assertEquals(post , mock);
 
         verify(repository).save(any());
     }
@@ -39,27 +40,23 @@ class PostServiceTest {
     @Test
     void getExistingById() {
         //arrange
-        UUID postId = UUID.randomUUID();
+        Post post = mock(Post.class);
 
-        when(repository.findById(postId)).thenReturn(Optional.of(new Post(postId, "post name")));
+        when(repository.findById(any())).thenReturn(Optional.of(post));
         //act
-        Post existingById = service.getExistingById(postId);
+        Post existingById = service.getExistingById(any());
         //assert
-        Assertions.assertNotNull(existingById);
-
-        verify(repository).findById(postId);
+        Assertions.assertEquals(existingById, post);
     }
 
     @Test
     void getNotExistingById(){
         //arrange
-        UUID postId = UUID.randomUUID();
-
-        when(repository.findById(postId)).thenReturn(Optional.empty());
+        when(repository.findById(any())).thenReturn(Optional.empty());
         //act + assert
         Assertions.assertThrows(NotFoundException.class,
-                () -> service.getExistingById(postId));
+                () -> service.getExistingById(any()));
 
-        verify(repository).findById(postId);
+        verify(repository).findById(any());
     }
 }

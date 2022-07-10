@@ -1,0 +1,40 @@
+{
+  "employee":[
+    {
+      "first_name": "Anton",
+      "last_name": "Ivanov",
+      "description": "wwq",
+      "phone": "9929",
+      "email": "email",
+      "work_email": "workEmail",
+      "job_type": "CONTRACT",
+      "fk_post": "4085e25e-6e6c-4cf1-8949-63c4175bf168"
+    },
+    {
+      "first_name": "mikhail",
+      "last_name": "bunkov",
+      "description": "wwq",
+      "phone": "9929",
+      "email": "email",
+      "work_email": "workEmail",
+      "job_type": "CONTRACT",
+      "fk_post": "4085e25e-6e6c-4cf1-8949-63c4175bf168"
+    },
+    {
+      "first_name": "Kirill",
+      "last_name": "Kolov",
+      "description": "wwq",
+      "phone": "9929",
+      "email": "email",
+      "work_email": "workEmail",
+      "job_type": "CONTRACT",
+      "fk_post": "4085e25e-6e6c-4cf1-8949-63c4175bf168"
+    }
+  ],
+  "post":[
+    {
+      "id": "4085e25e-6e6c-4cf1-8949-63c4175bf168",
+      "name": "Senior Dev"
+    }
+  ]
+}

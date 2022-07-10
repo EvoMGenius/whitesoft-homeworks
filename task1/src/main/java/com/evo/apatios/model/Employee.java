@@ -1,8 +1,6 @@
 package com.evo.apatios.model;
 
-import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
 import lombok.*;
-import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.List;
@@ -15,14 +13,11 @@ import java.util.UUID;
 @AllArgsConstructor
 @Getter
 @Setter
+@ToString
 public class Employee {
 
     @Id
-    @GeneratedValue(generator = "UUID")
-    @GenericGenerator(
-            name = "UUID",
-            strategy = "org.hibernate.id.UUIDGenerator"
-    )
+    @GeneratedValue
     private UUID id;
 
     private String firstName;
@@ -34,42 +29,20 @@ public class Employee {
 
     @Embedded
     private Contacts contacts;
+
     @ElementCollection
     private List<String> characteristics;
+
+    @Enumerated(EnumType.STRING)
     private JobType jobType;
-
-
-    @Override
-    public String toString() {
-        return "Employee{" +
-                "id=" + id +
-                ", firstName='" + firstName + '\'' +
-                ", lastName='" + lastName + '\'' +
-                ", description='" + description + '\'' +
-                ", post=" + post.getName() +
-                ", contacts=" + contacts +
-                ", characteristics=" + characteristics +
-                ", jobType=" + jobType +
-                '}';
-    }
-
-    public void setAllFields(UpdateEmployeeArgument employee) {
-        this.firstName = employee.getFirstName();
-        this.lastName = employee.getLastName();
-        this.description = employee.getDescription();
-        this.post = employee.getPost();
-        this.contacts = employee.getContacts();
-        this.characteristics = employee.getCharacteristics();
-        this.jobType = employee.getJobType();
-    }
 
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if(o==null) return false;
-        if(getClass() != o.getClass()) return false;
+        if (!(o instanceof Employee)) return false;
         Employee employee = (Employee) o;
-        return Objects.equals(id,employee.getId()) && Objects.equals(post, employee.getPost());
+        return id != null &&
+                id.equals(employee.getId());
     }
 
     @Override

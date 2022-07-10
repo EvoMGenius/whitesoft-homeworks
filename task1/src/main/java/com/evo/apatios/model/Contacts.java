@@ -1,10 +1,14 @@
 package com.evo.apatios.model;
 
-import lombok.Data;
+import lombok.*;
 
 import javax.persistence.Embeddable;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 @Embeddable
 public class Contacts {
     private String phone;

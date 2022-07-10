@@ -8,6 +8,8 @@ import com.evo.apatios.service.post.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Component;
 
+import java.util.UUID;
+
 @Component
 @RequiredArgsConstructor
 public class UpdateEmployeeAction {
@@ -16,9 +18,9 @@ public class UpdateEmployeeAction {
 
     public final PostService postService;
 
-    public Employee execute(UpdateEmployeeActionArgument employeeArgument) {
+    public Employee execute(UUID id, UpdateEmployeeActionArgument employeeArgument) {
         UpdateEmployeeArgument argumentForService = UpdateEmployeeArgument.builder()
-                .id(employeeArgument.getId())
+                .id(id)
                 .firstName(employeeArgument.getFirstName())
                 .lastName(employeeArgument.getLastName())
                 .description(employeeArgument.getDescription())

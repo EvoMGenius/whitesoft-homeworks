@@ -14,8 +14,7 @@ import org.mockito.Mockito;
 import java.util.*;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.verify;
-import static org.mockito.Mockito.when;
+import static org.mockito.Mockito.*;
 
 class EmployeeServiceTest {
 
@@ -54,18 +53,9 @@ class EmployeeServiceTest {
     @Test
     void create() {
         //arrange
-        UUID empId = UUID.randomUUID();
-        Employee expectedEmployee = Employee.builder()
-                .id(empId)
-                .firstName("Victor")
-                .lastName("Ivanchenko")
-                .post(new Post(null,"post name")).build();
+        Employee expectedEmployee = mock(Employee.class);
 
-        CreateEmployeeArgument argument = CreateEmployeeArgument.builder()
-                .firstName("Victor")
-                .lastName("Ivanchenko")
-                .post(new Post(null, "post name"))
-                .build();
+        CreateEmployeeArgument argument = mock(CreateEmployeeArgument.class);
 
         when(repository.save(any())).thenReturn(expectedEmployee);
         //act
@@ -80,17 +70,12 @@ class EmployeeServiceTest {
     void update() {
         //arrange
         UUID empId = UUID.randomUUID();
-        Employee expectedEmployee = Employee.builder()
-                .id(empId)
-                .firstName("Victor")
-                .lastName("Ivanchenko")
-                .post(new Post(null,"post name")).build();
-
+        Employee expectedEmployee = mock(Employee.class);
         UpdateEmployeeArgument argument = UpdateEmployeeArgument.builder()
                 .id(empId)
                 .firstName("Victor")
                 .lastName("Ivanchenko")
-                .post(new Post(null, "post name"))
+                .post(mock(Post.class))
                 .build();
 
         when(repository.findById(empId)).thenReturn(Optional.of(expectedEmployee));
@@ -101,27 +86,18 @@ class EmployeeServiceTest {
         Assertions.assertEquals(employee, expectedEmployee);
 
         verify(repository).save(any());
-        verify(repository).findById(empId);
     }
 
     @Test
     void findByIdExistedEmployee() {
         //arrange
-        when(repository.findById(any())).thenReturn(Optional.of(Employee.builder()
-                .id(firstEmployeeId)
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                .post(new Post(postId, "some post name"))
-                .build()));
+        Employee mock = mock(Employee.class);
+
+        when(repository.findById(any())).thenReturn(Optional.of(mock));
         //act
         Employee employee = service.getExisting(firstEmployeeId);
         //assert
-        Assertions.assertEquals(employee, Employee.builder()
-                .id(firstEmployeeId)
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                .post(new Post(postId, "some post name"))
-                .build());
+        Assertions.assertEquals(employee, mock);
 
         verify(repository).findById(any());
     }

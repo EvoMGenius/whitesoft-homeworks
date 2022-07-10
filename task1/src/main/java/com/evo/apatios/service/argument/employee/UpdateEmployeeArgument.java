@@ -12,6 +12,7 @@ import java.util.UUID;
 @Data
 @Builder
 public class UpdateEmployeeArgument {
+
     private UUID id;
 
     private String firstName;

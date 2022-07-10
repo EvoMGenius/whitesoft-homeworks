@@ -25,8 +25,6 @@ class CreateEmployeeActionTest {
 
     private final UUID postId = UUID.randomUUID();
 
-    private final UUID employeeId = UUID.randomUUID();
-
     @Test
     void executeCreationWithExistingPost() {
         //arrange
@@ -35,26 +33,17 @@ class CreateEmployeeActionTest {
                 .postId(postId)
                 .build();
 
-        Post post = new Post(postId, "post name");
+        Post post = mock(Post.class);
+
+        Employee expectedEmployee = mock(Employee.class);
 
         when(postService.getExistingById(postId)).thenReturn(post);
 
-        when(employeeService.create(any())).thenReturn(Employee.builder()
-                        .id(employeeId)
-                        .firstName(argument.getFirstName())
-                        .post(post)
-                        .build());
+        when(employeeService.create(any())).thenReturn(expectedEmployee);
         //act
         Employee createdEmployee = action.execute(argument);
         //assert
-        Assertions.assertEquals(createdEmployee, Employee.builder()
-                        .id(employeeId)
-                        .firstName(argument.getFirstName())
-                        .post(post)
-                .build());
-
-        verify(employeeService).create(any());
-        verify(postService).getExistingById(postId);
+        Assertions.assertEquals(createdEmployee, expectedEmployee);
     }
 
 
@@ -66,21 +55,17 @@ class CreateEmployeeActionTest {
                 .postId(postId)
                 .build();
 
-        Post post = new Post(postId, "post name");
+        Post post = mock(Post.class);
+        Employee expectedEmployee = mock(Employee.class);
 
         when(postService.getExistingById(postId)).thenThrow(NotFoundException.class);
+        when(employeeService.create(any())).thenReturn(expectedEmployee);
 
-        when(employeeService.create(any())).thenReturn(Employee.builder()
-                .id(employeeId)
-                .firstName(argument.getFirstName())
-                .post(post)
-                .build());
-        //act + assert
-        Assertions.assertThrows(NotFoundException.class, ()->{
-            action.execute(argument);
-        });
+        //act+assert
+        Assertions.assertThrows(NotFoundException.class, ()->
+            action.execute(argument)
+        );
 
         verify(employeeService, never()).create(any());
-        verify(postService).getExistingById(postId);
     }
 }
