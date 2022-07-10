@@ -32,8 +32,8 @@ class EmployeeControllerTest {
     private WebTestClient webTestClient;
 
     @Test
-    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/DB.json")
-    void findAllEmployees() {
+    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/EmployeeControllerTest/findAllWithSearchParams/DB.json")
+    void findAllEmployeesWithSearchParams() {
         //arrange
 
         SearchParams params = SearchParams.builder().firstName("mikhail").build();
@@ -69,7 +69,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/DB.json")
+    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/EmployeeControllerTest/findById/DB.json")
     void findExistedById() {
         //arrange
         UUID id = UUID.fromString("3ed906ca-2943-496b-9f31-ee35692c2bfa");
@@ -101,8 +101,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, value = "/dataset/DB.json")
-    @ExpectedDataSet(value = "/dataset/expected/dbByCreate.json", ignoreCols = "employee.id")
+    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/EmployeeControllerTest/create/DB.json")
+    @ExpectedDataSet(value = "/dataset/EmployeeControllerTest/create/dbByCreate.json", ignoreCols = "employee.id")
     void create() {
         //arrange
         UUID postId = UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168");
@@ -144,8 +144,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, value = "/dataset/DB.json")
-    @ExpectedDataSet(value = "/dataset/expected/dbByUpdateExpected.json")
+    @DataSet(cleanBefore = true, value = "/dataset/EmployeeControllerTest/updateExisted/DB.json")
+    @ExpectedDataSet(value = "/dataset/EmployeeControllerTest/updateExisted/dbByUpdateExpected.json")
     void updateExisted() {
         //arrange
         UUID postId = UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168");
@@ -189,8 +189,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, value = "/dataset/DB.json")
-    @ExpectedDataSet(value = "/dataset/expected/dbByDelete.json")
+    @DataSet(cleanBefore = true, value = "/dataset/EmployeeControllerTest/delete/DB.json")
+    @ExpectedDataSet(value = "/dataset/EmployeeControllerTest/delete/dbByDelete.json")
     void deleteById() {
         //arrange
         UUID id = UUID.fromString("ad4faaaf-1c1c-4442-87db-1df09c662f89");
@@ -206,7 +206,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/DB.json")
+    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/EmployeeControllerTest/findByIdNotExisted/DB.json")
     void findNotExistedById() {
         //arrange
         UUID id = UUID.randomUUID();
@@ -232,8 +232,8 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, value = "/dataset/DB.json")
-    @ExpectedDataSet(value = "dataset/expected/dbByUpdateNotExpectedEmployee.json")
+    @DataSet(cleanBefore = true, value = "/dataset/EmployeeControllerTest/updateNotExisted/DB.json")
+    @ExpectedDataSet(value = "dataset/EmployeeControllerTest/updateNotExisted/dbByUpdateNotExpectedEmployee.json")
     void updateNotExisted() {
         //arrange
         Contacts contacts = new Contacts("9929", "email", "workEmail");
