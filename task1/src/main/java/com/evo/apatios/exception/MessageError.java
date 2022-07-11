@@ -19,6 +19,6 @@ public class MessageError {
 
     public MessageError(String message, LocalDateTime timestamp) {
         this.message = message;
-        this.timestamp = LocalDateTime.now();
+        this.timestamp = timestamp;
     }
 }
