@@ -18,25 +18,26 @@ public class PostService {
 
     private final PostRepository repository;
 
-    public List<Post> findAll(){
+    public List<Post> findAll() {
         return repository.findAll();
     }
 
-    public Post create(CreatePostArgument createPostArgument){
+    public Post create(CreatePostArgument createPostArgument) {
         return repository.save(Post.builder()
-                .name(createPostArgument.getName())
-                .build());
+                                   .name(createPostArgument.getName())
+                                   .build());
     }
 
-    public void deleteById(UUID id){
+    public void deleteById(UUID id) {
         repository.deleteById(id);
     }
 
-    public Post getExistingById(UUID id){
-        return repository.findById(id).orElseThrow(()-> new NotFoundException("post with this id is not found", id));
+    public Post getExistingById(UUID id) {
+        return repository.findById(id).orElseThrow(() -> new NotFoundException("post with this id is not found", id));
     }
+
     @PostConstruct
-    public void init(){
+    public void init() {
         repository.saveAll(List.of(
                 new Post(UUID.fromString("854ef89d-6c27-4635-926d-894d76a81707"), "Backend Senior Developer"),
                 new Post(UUID.fromString("762d15a5-3bc9-43ef-ae96-02a680a557d0"), "Backend Middle Developer")));

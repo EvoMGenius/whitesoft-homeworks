@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CreationPostException extends RuntimeException{
+public class CreationPostException extends RuntimeException {
 
     private String errorMessage;
 
-    public CreationPostException (){
+    public CreationPostException() {
         this.errorMessage = "CREATION POST EXCEPTION";
     }
 }

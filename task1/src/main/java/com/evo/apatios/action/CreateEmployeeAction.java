@@ -16,16 +16,16 @@ public class CreateEmployeeAction {
 
     public final PostService postService;
 
-    public Employee execute(CreateEmployeeActionArgument employeeArgument){
+    public Employee execute(CreateEmployeeActionArgument employeeArgument) {
         CreateEmployeeArgument argumentForService = CreateEmployeeArgument.builder()
-                .firstName(employeeArgument.getFirstName())
-                .lastName(employeeArgument.getLastName())
-                .description(employeeArgument.getDescription())
-                .post(postService.getExistingById(employeeArgument.getPostId()))
-                .contacts(employeeArgument.getContacts())
-                .characteristics(employeeArgument.getCharacteristics())
-                .jobType(employeeArgument.getJobType())
-                .build();
+                                                                          .firstName(employeeArgument.getFirstName())
+                                                                          .lastName(employeeArgument.getLastName())
+                                                                          .description(employeeArgument.getDescription())
+                                                                          .post(postService.getExistingById(employeeArgument.getPostId()))
+                                                                          .contacts(employeeArgument.getContacts())
+                                                                          .characteristics(employeeArgument.getCharacteristics())
+                                                                          .jobType(employeeArgument.getJobType())
+                                                                          .build();
 
         return employeeService.create(argumentForService);
     }

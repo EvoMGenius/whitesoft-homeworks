@@ -32,20 +32,20 @@ class EmployeeServiceTest {
     void getEmployeeListWithAllCompletedSearchParams() {
         //arrange
         SearchParams searchParams = SearchParams.builder()
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                .postId(postId).build();
+                                                .firstName("Ivan")
+                                                .lastName("Ivanov")
+                                                .postId(postId).build();
 
-         when(repository.findAll()).thenReturn(this.mockEmployees());
+        when(repository.findAll()).thenReturn(this.mockEmployees());
         //act
         List<Employee> employeeList = service.getEmployeeList(searchParams);
         //assert
         Assertions.assertEquals(employeeList, List.of(Employee.builder()
-                .id(firstEmployeeId)
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                        .post(new Post(postId, "some post name"))
-                .build()));
+                                                              .id(firstEmployeeId)
+                                                              .firstName("Ivan")
+                                                              .lastName("Ivanov")
+                                                              .post(new Post(postId, "some post name"))
+                                                              .build()));
 
         verify(repository).findAll();
     }
@@ -72,11 +72,11 @@ class EmployeeServiceTest {
         UUID empId = UUID.randomUUID();
         Employee expectedEmployee = mock(Employee.class);
         UpdateEmployeeArgument argument = UpdateEmployeeArgument.builder()
-                .id(empId)
-                .firstName("Victor")
-                .lastName("Ivanchenko")
-                .post(mock(Post.class))
-                .build();
+                                                                .id(empId)
+                                                                .firstName("Victor")
+                                                                .lastName("Ivanchenko")
+                                                                .post(mock(Post.class))
+                                                                .build();
 
         when(repository.findById(empId)).thenReturn(Optional.of(expectedEmployee));
         when(repository.save(any())).thenReturn(expectedEmployee);
@@ -107,33 +107,33 @@ class EmployeeServiceTest {
         //arrange
         when(repository.findById(any())).thenReturn(Optional.empty());
         //act+assert
-        Assertions.assertThrows(NotFoundException.class , ()->{
+        Assertions.assertThrows(NotFoundException.class, () -> {
             service.getExisting(firstEmployeeId);
         });
 
         verify(repository).findById(any());
     }
 
-    private List<Employee> mockEmployees(){
+    private List<Employee> mockEmployees() {
         List<Employee> list = new ArrayList<>();
         list.add(Employee.builder()
-                .id(firstEmployeeId)
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                .post(new Post(postId, "some post name"))
-                .build());
+                         .id(firstEmployeeId)
+                         .firstName("Ivan")
+                         .lastName("Ivanov")
+                         .post(new Post(postId, "some post name"))
+                         .build());
         list.add(Employee.builder()
-                .id(secondEmployeeId)
-                .firstName("Jeka")
-                .lastName("Trakilov")
-                .post(new Post(UUID.randomUUID(), ""))
-                .build());
+                         .id(secondEmployeeId)
+                         .firstName("Jeka")
+                         .lastName("Trakilov")
+                         .post(new Post(UUID.randomUUID(), ""))
+                         .build());
         list.add(Employee.builder()
-                .id(thirdEmployeeId)
-                .firstName("Andrew")
-                .lastName("Mikanchik")
-                .post(new Post(UUID.randomUUID(),""))
-                .build());
+                         .id(thirdEmployeeId)
+                         .firstName("Andrew")
+                         .lastName("Mikanchik")
+                         .post(new Post(UUID.randomUUID(), ""))
+                         .build());
         return new ArrayList<>(list);
     }
 }

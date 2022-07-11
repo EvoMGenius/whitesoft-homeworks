@@ -19,6 +19,6 @@ public interface EmployeeMapper {
 
     UpdateEmployeeActionArgument updateDtoToArgument(UpdateEmployeeDto dto);
 
-    @Mapping(target = "postId",source ="post.id")
+    @Mapping(target = "postId", source = "post.id")
     EmployeeDto entityToDto(Employee employee);
 }

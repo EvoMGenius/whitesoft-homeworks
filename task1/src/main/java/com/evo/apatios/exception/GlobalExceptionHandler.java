@@ -12,21 +12,21 @@ public class GlobalExceptionHandler {
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    public MessageError catchNotFoundException(NotFoundException e){
+    public MessageError catchNotFoundException(NotFoundException e) {
         log.error(e.getErrorMessage(), e);
         return new MessageError(e.getErrorMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public MessageError catchCreationEmployeeException(CreationEmployeeException e){
+    public MessageError catchCreationEmployeeException(CreationEmployeeException e) {
         log.error(e.getErrorMessage(), e);
         return new MessageError(e.getErrorMessage());
     }
 
     @ExceptionHandler
     @ResponseStatus(HttpStatus.BAD_REQUEST)
-    public MessageError catchCreationPostException(CreationPostException e){
+    public MessageError catchCreationPostException(CreationPostException e) {
         log.error(e.getErrorMessage(), e);
         return new MessageError(e.getErrorMessage());
     }

@@ -25,35 +25,35 @@ public class PostController {
 
     @GetMapping("/list")
     @ApiOperation("Вывод списка должностей.")
-    public List<PostDto> findAll(){
+    public List<PostDto> findAll() {
         return postService.findAll().stream().map(POST_MAPPER::entityToDto).toList();
     }
 
     @GetMapping("/{id}")
     @ApiOperation(value = "Найти должность по id.", response = PostDto.class)
-    public PostDto findById(@PathVariable UUID id){
+    public PostDto findById(@PathVariable UUID id) {
         Post post = postService.getExistingById(id);
         return POST_MAPPER.entityToDto(post);
     }
 
     @PostMapping
-    @ApiOperation(value = "Создать должность.",response = PostDto.class)
-    public PostDto create(@RequestBody CreatePostDto postDto){
+    @ApiOperation(value = "Создать должность.", response = PostDto.class)
+    public PostDto create(@RequestBody CreatePostDto postDto) {
         Post createdPost = postService.create(POST_MAPPER.createDtoToArgument(postDto));
         return POST_MAPPER.entityToDto(createdPost);
     }
 
     @PutMapping("/{id}")
-    @ApiOperation(value = "Изменить должность.",response = PostDto.class)
+    @ApiOperation(value = "Изменить должность.", response = PostDto.class)
     public PostDto update(@PathVariable UUID id,
-                          @RequestBody UpdatePostDto postDto){
-        Post updatedPost = postService.update(id,POST_MAPPER.updateDtoToArgument(postDto));
+                          @RequestBody UpdatePostDto postDto) {
+        Post updatedPost = postService.update(id, POST_MAPPER.updateDtoToArgument(postDto));
         return POST_MAPPER.entityToDto(updatedPost);
     }
 
     @DeleteMapping("/{id}")
     @ApiOperation("Удалить должность по id.")
-    public void deleteById(@PathVariable UUID id){
+    public void deleteById(@PathVariable UUID id) {
         postService.deleteById(id);
     }
 }

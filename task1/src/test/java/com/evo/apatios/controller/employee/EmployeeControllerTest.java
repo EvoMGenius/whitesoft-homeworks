@@ -38,29 +38,29 @@ class EmployeeControllerTest {
         SearchParams params = SearchParams.builder().firstName("mikhail").build();
         //act
         List<EmployeeDto> response = webTestClient.get()
-                .uri(uriBuilder -> uriBuilder.path("/employee/list")
-                        .queryParam("firstName",params.getFirstName())
-                        .build())
-                .exchange()
-                //assert
-                .expectStatus()
-                .isOk()
-                .expectBodyList(EmployeeDto.class)
-                .returnResult()
-                .getResponseBody();
+                                                  .uri(uriBuilder -> uriBuilder.path("/employee/list")
+                                                                               .queryParam("firstName", params.getFirstName())
+                                                                               .build())
+                                                  .exchange()
+                                                  //assert
+                                                  .expectStatus()
+                                                  .isOk()
+                                                  .expectBodyList(EmployeeDto.class)
+                                                  .returnResult()
+                                                  .getResponseBody();
 
         Assertions.assertThat(response).hasSize(1);
         Assertions.assertThat(response.get(0)).usingRecursiveComparison()
-                .isEqualTo(EmployeeDto.builder()
-                        .id(UUID.fromString("ad4faaaf-1c1c-4442-87db-1df09c662f89"))
-                        .firstName("mikhail")
-                        .lastName("bunkov")
-                        .characteristics(new ArrayList<>())
-                        .description("wwq")
-                        .jobType(CONTRACT)
-                        .contacts(new Contacts("9929","email","workEmail"))
-                        .postId(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"))
-                        .build());
+                  .isEqualTo(EmployeeDto.builder()
+                                        .id(UUID.fromString("ad4faaaf-1c1c-4442-87db-1df09c662f89"))
+                                        .firstName("mikhail")
+                                        .lastName("bunkov")
+                                        .characteristics(new ArrayList<>())
+                                        .description("wwq")
+                                        .jobType(CONTRACT)
+                                        .contacts(new Contacts("9929", "email", "workEmail"))
+                                        .postId(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"))
+                                        .build());
     }
 
     @Test
@@ -70,26 +70,26 @@ class EmployeeControllerTest {
         UUID id = UUID.fromString("3ed906ca-2943-496b-9f31-ee35692c2bfa");
         //act
         EmployeeDto response = webTestClient.get()
-                .uri("employee/{id}", id)
-                .exchange()
-                //assert
-                .expectStatus()
-                .isOk()
-                .expectBody(EmployeeDto.class)
-                .returnResult()
-                .getResponseBody();
+                                            .uri("employee/{id}", id)
+                                            .exchange()
+                                            //assert
+                                            .expectStatus()
+                                            .isOk()
+                                            .expectBody(EmployeeDto.class)
+                                            .returnResult()
+                                            .getResponseBody();
 
         Assertions.assertThat(response).usingRecursiveComparison()
-                .isEqualTo(EmployeeDto.builder()
-                        .id(id)
-                        .firstName("Anton")
-                        .lastName("Ivanov")
-                        .characteristics(new ArrayList<>())
-                        .description("wwq")
-                        .jobType(CONTRACT)
-                        .contacts(new Contacts("9929","email","workEmail"))
-                        .postId(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"))
-                        .build());
+                  .isEqualTo(EmployeeDto.builder()
+                                        .id(id)
+                                        .firstName("Anton")
+                                        .lastName("Ivanov")
+                                        .characteristics(new ArrayList<>())
+                                        .description("wwq")
+                                        .jobType(CONTRACT)
+                                        .contacts(new Contacts("9929", "email", "workEmail"))
+                                        .postId(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"))
+                                        .build());
     }
 
     @Test
@@ -101,37 +101,37 @@ class EmployeeControllerTest {
         Contacts contacts = new Contacts("9929", "email", "workEmail");
 
         CreateEmployeeDto createEmployeeDto = CreateEmployeeDto.builder()
-                .firstName("Kirill")
-                .lastName("Kolov")
-                .characteristics(new ArrayList<>())
-                .description("wwq")
-                .jobType(CONTRACT)
-                .contacts(contacts)
-                .postId(postId)
-                .build();
+                                                               .firstName("Kirill")
+                                                               .lastName("Kolov")
+                                                               .characteristics(new ArrayList<>())
+                                                               .description("wwq")
+                                                               .jobType(CONTRACT)
+                                                               .contacts(contacts)
+                                                               .postId(postId)
+                                                               .build();
         //act
         EmployeeDto response = webTestClient.post()
-                .uri("employee")
-                .bodyValue(createEmployeeDto)
-                .exchange()
-                //Assert
-                .expectStatus()
-                .isOk()
-                .expectBody(EmployeeDto.class)
-                .returnResult()
-                .getResponseBody();
+                                            .uri("employee")
+                                            .bodyValue(createEmployeeDto)
+                                            .exchange()
+                                            //Assert
+                                            .expectStatus()
+                                            .isOk()
+                                            .expectBody(EmployeeDto.class)
+                                            .returnResult()
+                                            .getResponseBody();
 
         Assertions.assertThat(response).usingRecursiveComparison().ignoringFields("id")
-                .isEqualTo(EmployeeDto.builder()
-                        .id(UUID.randomUUID())
-                        .firstName("Kirill")
-                        .lastName("Kolov")
-                        .characteristics(new ArrayList<>())
-                        .description("wwq")
-                        .jobType(CONTRACT)
-                        .contacts(contacts)
-                        .postId(postId)
-                        .build());
+                  .isEqualTo(EmployeeDto.builder()
+                                        .id(UUID.randomUUID())
+                                        .firstName("Kirill")
+                                        .lastName("Kolov")
+                                        .characteristics(new ArrayList<>())
+                                        .description("wwq")
+                                        .jobType(CONTRACT)
+                                        .contacts(contacts)
+                                        .postId(postId)
+                                        .build());
     }
 
     @Test
@@ -144,37 +144,37 @@ class EmployeeControllerTest {
         UUID id = UUID.fromString("3ed906ca-2943-496b-9f31-ee35692c2bfa");
 
         UpdateEmployeeDto updateEmployeeDto = UpdateEmployeeDto.builder()
-                .firstName("Ivan")
-                .lastName("Ivanov")
-                .characteristics(new ArrayList<>())
-                .description("wwq")
-                .jobType(CONTRACT)
-                .contacts(contacts)
-                .postId(postId)
-                .build();
+                                                               .firstName("Ivan")
+                                                               .lastName("Ivanov")
+                                                               .characteristics(new ArrayList<>())
+                                                               .description("wwq")
+                                                               .jobType(CONTRACT)
+                                                               .contacts(contacts)
+                                                               .postId(postId)
+                                                               .build();
         //act
         EmployeeDto response = webTestClient.put()
-                .uri("employee/{id}", id)
-                .bodyValue(updateEmployeeDto)
-                .exchange()
-                //Assert
-                .expectStatus()
-                .isOk()
-                .expectBody(EmployeeDto.class)
-                .returnResult()
-                .getResponseBody();
+                                            .uri("employee/{id}", id)
+                                            .bodyValue(updateEmployeeDto)
+                                            .exchange()
+                                            //Assert
+                                            .expectStatus()
+                                            .isOk()
+                                            .expectBody(EmployeeDto.class)
+                                            .returnResult()
+                                            .getResponseBody();
 
         Assertions.assertThat(response).usingRecursiveComparison()
-                .isEqualTo(EmployeeDto.builder()
-                        .id(id)
-                        .firstName("Ivan")
-                        .lastName("Ivanov")
-                        .characteristics(new ArrayList<>())
-                        .description("wwq")
-                        .jobType(CONTRACT)
-                        .contacts(contacts)
-                        .postId(postId)
-                        .build());
+                  .isEqualTo(EmployeeDto.builder()
+                                        .id(id)
+                                        .firstName("Ivan")
+                                        .lastName("Ivanov")
+                                        .characteristics(new ArrayList<>())
+                                        .description("wwq")
+                                        .jobType(CONTRACT)
+                                        .contacts(contacts)
+                                        .postId(postId)
+                                        .build());
     }
 
     @Test
@@ -186,11 +186,11 @@ class EmployeeControllerTest {
 
         //act
         webTestClient.delete()
-                .uri("employee/{id}", id)
-                .exchange()
-                //assert
-                .expectStatus()
-                .isOk();
+                     .uri("employee/{id}", id)
+                     .exchange()
+                     //assert
+                     .expectStatus()
+                     .isOk();
     }
 
     @Test
@@ -200,19 +200,19 @@ class EmployeeControllerTest {
         UUID id = UUID.randomUUID();
         //act
         MessageError er = webTestClient.get()
-                .uri("employee/{id}", id)
-                .exchange()
-                //assert
-                .expectStatus()
-                .isNotFound()
-                .expectBody(MessageError.class)
-                .returnResult()
-                .getResponseBody();
+                                       .uri("employee/{id}", id)
+                                       .exchange()
+                                       //assert
+                                       .expectStatus()
+                                       .isNotFound()
+                                       .expectBody(MessageError.class)
+                                       .returnResult()
+                                       .getResponseBody();
 
         Assertions.assertThat(er).usingRecursiveComparison()
-                .ignoringFields("timestamp")
-                .isEqualTo(MessageError.builder()
-                        .message("Employee with this id is not found")
-                        .build());
+                  .ignoringFields("timestamp")
+                  .isEqualTo(MessageError.builder()
+                                         .message("Employee with this id is not found")
+                                         .build());
     }
 }

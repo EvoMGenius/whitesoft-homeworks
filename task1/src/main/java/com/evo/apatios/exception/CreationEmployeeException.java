@@ -7,11 +7,11 @@ import lombok.Setter;
 @Getter
 @Setter
 @AllArgsConstructor
-public class CreationEmployeeException extends RuntimeException{
+public class CreationEmployeeException extends RuntimeException {
 
     private String errorMessage;
 
-    public CreationEmployeeException (){
+    public CreationEmployeeException() {
         this.errorMessage = "CREATION EMPLOYEE EXCEPTION";
     }
 }

@@ -20,15 +20,15 @@ public class UpdateEmployeeAction {
 
     public Employee execute(UUID id, UpdateEmployeeActionArgument employeeArgument) {
         UpdateEmployeeArgument argumentForService = UpdateEmployeeArgument.builder()
-                .id(id)
-                .firstName(employeeArgument.getFirstName())
-                .lastName(employeeArgument.getLastName())
-                .description(employeeArgument.getDescription())
-                .post(postService.getExistingById(employeeArgument.getPostId()))
-                .contacts(employeeArgument.getContacts())
-                .characteristics(employeeArgument.getCharacteristics())
-                .jobType(employeeArgument.getJobType())
-                .build();
+                                                                          .id(id)
+                                                                          .firstName(employeeArgument.getFirstName())
+                                                                          .lastName(employeeArgument.getLastName())
+                                                                          .description(employeeArgument.getDescription())
+                                                                          .post(postService.getExistingById(employeeArgument.getPostId()))
+                                                                          .contacts(employeeArgument.getContacts())
+                                                                          .characteristics(employeeArgument.getCharacteristics())
+                                                                          .jobType(employeeArgument.getJobType())
+                                                                          .build();
 
         return employeeService.update(argumentForService);
     }

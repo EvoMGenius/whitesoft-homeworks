@@ -29,9 +29,9 @@ class CreateEmployeeActionTest {
     void executeCreationWithExistingPost() {
         //arrange
         CreateEmployeeActionArgument argument = CreateEmployeeActionArgument.builder()
-                .firstName("Petr")
-                .postId(postId)
-                .build();
+                                                                            .firstName("Petr")
+                                                                            .postId(postId)
+                                                                            .build();
 
         Post post = mock(Post.class);
 
@@ -51,9 +51,9 @@ class CreateEmployeeActionTest {
     void executeCreationWithNotExistingPost() {
         //arrange
         CreateEmployeeActionArgument argument = CreateEmployeeActionArgument.builder()
-                .firstName("Petr")
-                .postId(postId)
-                .build();
+                                                                            .firstName("Petr")
+                                                                            .postId(postId)
+                                                                            .build();
 
         Post post = mock(Post.class);
         Employee expectedEmployee = mock(Employee.class);
@@ -62,9 +62,9 @@ class CreateEmployeeActionTest {
         when(employeeService.create(any())).thenReturn(expectedEmployee);
 
         //act+assert
-        Assertions.assertThrows(NotFoundException.class, ()->
-            action.execute(argument)
-        );
+        Assertions.assertThrows(NotFoundException.class, () ->
+                                        action.execute(argument)
+                               );
 
         verify(employeeService, never()).create(any());
     }

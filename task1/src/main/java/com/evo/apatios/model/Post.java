@@ -27,7 +27,7 @@ public class Post {
         if (!(o instanceof Post)) return false;
         Post post = (Post) o;
         return id != null &&
-                id.equals(post.getId());
+               id.equals(post.getId());
     }
 
     @Override

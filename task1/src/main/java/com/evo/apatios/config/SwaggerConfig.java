@@ -15,14 +15,14 @@ import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 public class SwaggerConfig {
 
     @Bean
-    public Docket docket(){
+    public Docket docket() {
         return new Docket(DocumentationType.SWAGGER_2)
                 .forCodeGeneration(true)
                 .select()
                 .apis(RequestHandlerSelectors.withClassAnnotation(RestController.class))
                 .build()
                 .tags(new Tag("employee-controller", "Employee controller"),
-                        new Tag("post-controller", "Post controller"))
+                      new Tag("post-controller", "Post controller"))
                 .produces(Sets.newHashSet(APPLICATION_JSON_VALUE))
                 .consumes(Sets.newHashSet(APPLICATION_JSON_VALUE));
     }

@@ -42,7 +42,7 @@ public class Employee {
         if (!(o instanceof Employee)) return false;
         Employee employee = (Employee) o;
         return id != null &&
-                id.equals(employee.getId());
+               id.equals(employee.getId());
     }
 
     @Override

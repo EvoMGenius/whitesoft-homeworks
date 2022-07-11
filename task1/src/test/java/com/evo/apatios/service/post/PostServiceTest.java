@@ -25,13 +25,13 @@ class PostServiceTest {
         //arrange
         UUID postId = UUID.randomUUID();
         Post mock = Mockito.mock(Post.class);
-        CreatePostArgument argument = new CreatePostArgument( "post name");
+        CreatePostArgument argument = new CreatePostArgument("post name");
 
         when(repository.save(any())).thenReturn(mock);
         //act
         Post post = service.create(argument);
         //assert
-        Assertions.assertEquals(post , mock);
+        Assertions.assertEquals(post, mock);
 
         verify(repository).save(any());
     }
@@ -50,12 +50,12 @@ class PostServiceTest {
     }
 
     @Test
-    void getNotExistingById(){
+    void getNotExistingById() {
         //arrange
         when(repository.findById(any())).thenReturn(Optional.empty());
         //act + assert
         Assertions.assertThrows(NotFoundException.class,
-                () -> service.getExistingById(any()));
+                                () -> service.getExistingById(any()));
 
         verify(repository).findById(any());
     }
