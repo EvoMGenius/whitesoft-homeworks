@@ -152,27 +152,4 @@ class EmployeeServiceTest {
 
         verify(repository).findById(any());
     }
-
-    private List<Employee> mockEmployees() {
-        List<Employee> list = new ArrayList<>();
-        list.add(Employee.builder()
-                         .id(firstEmployeeId)
-                         .firstName("Ivan")
-                         .lastName("Ivanov")
-                         .post(new Post(postId, "some post name"))
-                         .build());
-        list.add(Employee.builder()
-                         .id(secondEmployeeId)
-                         .firstName("Jeka")
-                         .lastName("Trakilov")
-                         .post(new Post(UUID.randomUUID(), ""))
-                         .build());
-        list.add(Employee.builder()
-                         .id(thirdEmployeeId)
-                         .firstName("Andrew")
-                         .lastName("Mikanchik")
-                         .post(new Post(UUID.randomUUID(), ""))
-                         .build());
-        return new ArrayList<>(list);
-    }
 }
