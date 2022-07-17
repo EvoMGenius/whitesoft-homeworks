@@ -9,6 +9,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import javax.transaction.Transactional;
 import java.util.List;
 import java.util.UUID;
 
@@ -43,6 +44,7 @@ public class PostService {
                 new Post(UUID.fromString("762d15a5-3bc9-43ef-ae96-02a680a557d0"), "Backend Middle Developer")));
     }
 
+    @Transactional
     public Post update(UUID id, UpdatePostArgument updatePostArgument) {
         Post existedPost = getExistingById(id);
         existedPost.setName(updatePostArgument.getName());

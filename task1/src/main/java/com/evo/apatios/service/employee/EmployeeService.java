@@ -1,16 +1,22 @@
 package com.evo.apatios.service.employee;
 
 import com.evo.apatios.exception.NotFoundException;
+import com.evo.apatios.model.QEmployee;
 import com.evo.apatios.repository.EmployeeRepository;
 import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
+import com.evo.apatios.service.params.QPredicates;
+import com.google.common.collect.Lists;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import com.evo.apatios.model.Employee;
 import com.evo.apatios.service.params.SearchParams;
 
+import javax.transaction.Transactional;
 import java.util.*;
-import java.util.function.Predicate;
+//import java.util.function.Predicate;
 import java.util.stream.Collectors;
 
 @Service
@@ -31,6 +37,7 @@ public class EmployeeService {
                                        .build());
     }
 
+    @Transactional
     public Employee update(UpdateEmployeeArgument employee) {
         Employee existedEmployee = getExisting(employee.getId());
 
@@ -45,24 +52,17 @@ public class EmployeeService {
         return repository.save(existedEmployee);
     }
 
+    @Transactional
     public List<Employee> getEmployeeList(SearchParams params) {
-        Predicate<Employee> predicate = Objects::nonNull;
-        List<Employee> employees = this.repository.findAll();
-        if (params.getFirstName() != null) {
-            predicate = predicate.and(employee -> employee.getFirstName().toLowerCase().contains(params.getFirstName().toLowerCase()));
-        }
-        if (params.getLastName() != null) {
-            predicate = predicate.and(employee -> employee.getLastName().toLowerCase().contains(params.getLastName().toLowerCase()));
-        }
-        if (params.getPostId() != null) {
-            predicate = predicate.and(employee -> employee.getPost().getId().equals(params.getPostId()));
-        }
+        QEmployee employee = QEmployee.employee;
 
-        return employees.stream()
-                        .filter(predicate)
-                        .sorted(Comparator.comparing(Employee::getFirstName)
-                                          .thenComparing(Employee::getLastName))
-                        .collect(Collectors.toList());
+        Predicate predicate = QPredicates.builder()
+                                         .add(params.getFirstName(), employee.firstName::containsIgnoreCase)
+                                         .add(params.getLastName(), employee.lastName::containsIgnoreCase)
+                                         .add(params.getPostId(), employee.post.id::eq)
+                                         .buildAnd();
+        return Lists.newArrayList(repository.findAll(predicate != null ? predicate
+                                                                       : employee.isNotNull()));
     }
 
     public void deleteById(UUID id) {

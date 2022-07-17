@@ -1,7 +1,7 @@
 {
   "employee":[
     {
-      "id": "3ed906ca-2943-496b-9f31-ee35692c2bfa",
+      "id": "ad4faaaf-1c1c-4442-87db-1df09c662f89",
       "first_name": "Anton",
       "last_name": "Ivanov",
       "description": "wwq",
@@ -10,6 +10,16 @@
       "work_email": "workEmail",
       "job_type": "CONTRACT",
       "fk_post": "4085e25e-6e6c-4cf1-8949-63c4175bf168"
+    }
+  ],
+  "employee_characteristics": [
+    {
+      "employee_id":"ad4faaaf-1c1c-4442-87db-1df09c662f89",
+      "characteristics": "Something"
+    },
+    {
+      "employee_id":"ad4faaaf-1c1c-4442-87db-1df09c662f89",
+      "characteristics": "Something 2"
     }
   ],
   "post":[

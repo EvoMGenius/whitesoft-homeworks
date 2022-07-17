@@ -6,11 +6,13 @@ import com.evo.apatios.repository.PostRepository;
 import com.evo.apatios.service.argument.post.CreatePostArgument;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Optional;
 import java.util.UUID;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -23,17 +25,21 @@ class PostServiceTest {
     @Test
     void create() {
         //arrange
-        UUID postId = UUID.randomUUID();
         Post mock = Mockito.mock(Post.class);
         CreatePostArgument argument = new CreatePostArgument("post name");
 
-        when(repository.save(any())).thenReturn(mock);
+        ArgumentCaptor<Post> postCaptor = ArgumentCaptor.forClass(Post.class);
+
+        when(repository.save(postCaptor.capture())).thenReturn(mock);
         //act
         Post post = service.create(argument);
+        Post capturedPost = postCaptor.getValue();
         //assert
         Assertions.assertEquals(post, mock);
 
-        verify(repository).save(any());
+        assertThat(capturedPost).usingRecursiveComparison()
+                                .ignoringFields("id")
+                                .isEqualTo(argument);
     }
 
 

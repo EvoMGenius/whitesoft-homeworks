@@ -1,15 +1,25 @@
 {
   "employee":[
     {
-      "id": "3ed906ca-2943-496b-9f31-ee35692c2bfa",
-      "first_name": "Ivan",
-      "last_name": "Ivanov",
+      "id": "ad4faaaf-1c1c-4442-87db-1df09c662f89",
+      "first_name": "mikhail",
+      "last_name": "bunkov",
       "description": "wwq",
       "phone": "9929",
       "email": "email",
       "work_email": "workEmail",
       "job_type": "CONTRACT",
       "fk_post": "4085e25e-6e6c-4cf1-8949-63c4175bf168"
+    }
+  ],
+  "employee_characteristics": [
+    {
+      "employee_id":"ad4faaaf-1c1c-4442-87db-1df09c662f89",
+      "characteristics": "Brave"
+    },
+    {
+      "employee_id":"ad4faaaf-1c1c-4442-87db-1df09c662f89",
+      "characteristics": "Smart"
     }
   ],
   "post":[

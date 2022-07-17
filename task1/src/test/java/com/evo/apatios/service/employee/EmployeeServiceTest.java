@@ -3,16 +3,22 @@ package com.evo.apatios.service.employee;
 import com.evo.apatios.exception.NotFoundException;
 import com.evo.apatios.model.Employee;
 import com.evo.apatios.model.Post;
+import com.evo.apatios.model.QEmployee;
 import com.evo.apatios.repository.EmployeeRepository;
 import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
+import com.evo.apatios.service.params.QPredicates;
 import com.evo.apatios.service.params.SearchParams;
+import com.querydsl.core.types.ExpressionUtils;
+import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.*;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.*;
 
@@ -36,18 +42,37 @@ class EmployeeServiceTest {
                                                 .lastName("Ivanov")
                                                 .postId(postId).build();
 
-        when(repository.findAll()).thenReturn(this.mockEmployees());
+        Post post = new Post(postId, "some post name");
+
+        QEmployee employee = QEmployee.employee;
+
+        Predicate expectedPredicate = QPredicates.builder()
+                                                 .add(searchParams.getFirstName(), employee.firstName::containsIgnoreCase)
+                                                 .add(searchParams.getLastName(), employee.lastName::containsIgnoreCase)
+                                                 .add(searchParams.getPostId(), employee.post.id::eq)
+                                                 .buildAnd();
+
+        ArgumentCaptor<Predicate> predicateArgumentCaptor = ArgumentCaptor.forClass(Predicate.class);
+
+        when(repository.findAll(predicateArgumentCaptor.capture()))
+                .thenReturn(List.of(Employee.builder()
+                                            .id(firstEmployeeId)
+                                            .firstName("Ivan")
+                                            .lastName("Ivanov")
+                                            .post(post)
+                                            .build()));
         //act
         List<Employee> employeeList = service.getEmployeeList(searchParams);
+        Predicate capturedPredicate = predicateArgumentCaptor.getValue();
         //assert
-        Assertions.assertEquals(employeeList, List.of(Employee.builder()
-                                                              .id(firstEmployeeId)
-                                                              .firstName("Ivan")
-                                                              .lastName("Ivanov")
-                                                              .post(new Post(postId, "some post name"))
-                                                              .build()));
-
-        verify(repository).findAll();
+        assertThat(capturedPredicate).isEqualTo(expectedPredicate);
+        Assertions.assertEquals(employeeList,
+                                List.of(Employee.builder()
+                                                .id(firstEmployeeId)
+                                                .firstName("Ivan")
+                                                .lastName("Ivanov")
+                                                .post(post)
+                                                .build()));
     }
 
     @Test
@@ -55,15 +80,23 @@ class EmployeeServiceTest {
         //arrange
         Employee expectedEmployee = mock(Employee.class);
 
-        CreateEmployeeArgument argument = mock(CreateEmployeeArgument.class);
+        CreateEmployeeArgument argument = CreateEmployeeArgument.builder()
+                                                                .firstName("Victor")
+                                                                .lastName("Ivanchenko")
+                                                                .post(mock(Post.class))
+                                                                .build();
 
-        when(repository.save(any())).thenReturn(expectedEmployee);
+        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
+
+        when(repository.save(employeeCaptor.capture())).thenReturn(expectedEmployee);
         //act
         Employee employee = service.create(argument);
+        Employee capturedEmployee = employeeCaptor.getValue();
         //assert
         Assertions.assertEquals(employee, expectedEmployee);
-
-        verify(repository).save(any());
+        assertThat(capturedEmployee).usingRecursiveComparison()
+                                    .ignoringFields("id")
+                                    .isEqualTo(argument);
     }
 
     @Test
@@ -78,14 +111,20 @@ class EmployeeServiceTest {
                                                                 .post(mock(Post.class))
                                                                 .build();
 
-        when(repository.findById(empId)).thenReturn(Optional.of(expectedEmployee));
-        when(repository.save(any())).thenReturn(expectedEmployee);
+        ArgumentCaptor<Employee> employeeCaptor = ArgumentCaptor.forClass(Employee.class);
+
+        when(repository.findById(empId)).thenReturn(Optional.of(Employee.builder()
+                                                                        .id(empId)
+                                                                        .build()));
+        when(repository.save(employeeCaptor.capture())).thenReturn(expectedEmployee);
         //act
         Employee employee = service.update(argument);
+        Employee capturedEmployee = employeeCaptor.getValue();
         //assert
         Assertions.assertEquals(employee, expectedEmployee);
 
-        verify(repository).save(any());
+        assertThat(capturedEmployee).usingRecursiveComparison()
+                                    .isEqualTo(argument);
     }
 
     @Test
