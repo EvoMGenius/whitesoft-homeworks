@@ -10,11 +10,7 @@ import lombok.*;
 import java.util.List;
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@Data
 @Builder
 @ApiModel("Модель сотрудника.")
 public class EmployeeDto {

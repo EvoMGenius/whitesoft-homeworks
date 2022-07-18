@@ -6,11 +6,7 @@ import lombok.*;
 
 import java.util.UUID;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@Data
 @Builder
 @ApiModel("Модель должности.")
 public class PostDto {

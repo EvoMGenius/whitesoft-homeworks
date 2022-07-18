@@ -38,7 +38,10 @@ class EmployeeControllerTest {
                                          .description("wwq")
                                          .jobType(CONTRACT)
                                          .contacts(new Contacts("9929", "email", "workEmail"))
-                                         .post(new PostDto(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"), "Senior Dev"))
+                                         .post(PostDto.builder()
+                                                      .id(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"))
+                                                      .name("Senior Dev")
+                                                      .build())
                                          .build();
 
     @Test

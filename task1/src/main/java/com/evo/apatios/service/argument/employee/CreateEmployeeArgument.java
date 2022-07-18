@@ -7,11 +7,7 @@ import lombok.*;
 
 import java.util.List;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@Data
 @Builder
 public class CreateEmployeeArgument {
 

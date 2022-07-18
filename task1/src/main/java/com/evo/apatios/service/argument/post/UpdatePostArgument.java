@@ -2,11 +2,7 @@ package com.evo.apatios.service.argument.post;
 
 import lombok.*;
 
-@Getter
-@Setter
-@NoArgsConstructor
-@AllArgsConstructor
-@EqualsAndHashCode
+@Data
 @Builder
 public class UpdatePostArgument {
 

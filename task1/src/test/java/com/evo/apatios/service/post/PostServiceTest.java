@@ -25,7 +25,9 @@ class PostServiceTest {
     void create() {
         //arrange
         Post mock = Mockito.mock(Post.class);
-        CreatePostArgument argument = new CreatePostArgument("post name");
+        CreatePostArgument argument = CreatePostArgument.builder()
+                                                        .name("post name")
+                                                        .build();
 
         when(repository.save(any())).thenReturn(mock);
         //act
