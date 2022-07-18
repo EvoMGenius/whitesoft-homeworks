@@ -31,6 +31,12 @@
             <optional>true</optional>
         </dependency>
 
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok-mapstruct-binding</artifactId>
+            <version>${lombok-mapstruct-binding.version}</version>
+        </dependency>
+
         <!-- jpa-->
         <dependency>
             <groupId>org.postgresql</groupId>

@@ -3,12 +3,15 @@ package com.evo.apatios.service.argument.employee;
 import com.evo.apatios.model.Contacts;
 import com.evo.apatios.model.JobType;
 import com.evo.apatios.model.Post;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.util.List;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 public class CreateEmployeeArgument {
 

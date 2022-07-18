@@ -7,7 +7,6 @@ import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
 import com.evo.apatios.service.params.QPredicates;
 import com.google.common.collect.Lists;
-import com.querydsl.core.types.ExpressionUtils;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,8 +15,6 @@ import com.evo.apatios.service.params.SearchParams;
 
 import javax.transaction.Transactional;
 import java.util.*;
-//import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -61,8 +58,7 @@ public class EmployeeService {
                                          .add(params.getLastName(), employee.lastName::containsIgnoreCase)
                                          .add(params.getPostId(), employee.post.id::eq)
                                          .buildAnd();
-        return Lists.newArrayList(repository.findAll(predicate != null ? predicate
-                                                                       : employee.isNotNull()));
+        return Lists.newArrayList(repository.findAll(predicate));
     }
 
     public void deleteById(UUID id) {

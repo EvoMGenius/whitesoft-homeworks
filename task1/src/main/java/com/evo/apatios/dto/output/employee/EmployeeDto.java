@@ -1,5 +1,6 @@
 package com.evo.apatios.dto.output.employee;
 
+import com.evo.apatios.dto.output.post.PostDto;
 import com.evo.apatios.model.Contacts;
 import com.evo.apatios.model.JobType;
 import io.swagger.annotations.ApiModel;
@@ -9,7 +10,11 @@ import lombok.*;
 import java.util.List;
 import java.util.UUID;
 
-@Data
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
+@EqualsAndHashCode
 @Builder
 @ApiModel("Модель сотрудника.")
 public class EmployeeDto {
@@ -22,8 +27,8 @@ public class EmployeeDto {
     private String lastName;
     @ApiModelProperty("Описание сотрудника.")
     private String description;
-    @ApiModelProperty("Номер должности сотрудника.")
-    private UUID postId;
+    @ApiModelProperty("Должность сотрудника.")
+    private PostDto post;
 
     @ApiModelProperty("Контактные данные сотрудника.")
     private Contacts contacts;

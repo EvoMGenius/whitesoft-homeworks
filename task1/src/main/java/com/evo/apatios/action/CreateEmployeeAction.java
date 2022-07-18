@@ -1,12 +1,12 @@
 package com.evo.apatios.action;
 
 import com.evo.apatios.action.argument.CreateEmployeeActionArgument;
-import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.model.Employee;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Component;
+import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.employee.EmployeeService;
 import com.evo.apatios.service.post.PostService;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor

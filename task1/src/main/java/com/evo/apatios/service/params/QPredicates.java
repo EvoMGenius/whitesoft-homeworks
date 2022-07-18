@@ -23,11 +23,19 @@ public class QPredicates {
     }
 
     public Predicate buildAnd() {
-        return ExpressionUtils.allOf(predicates);
+        Predicate predicate = ExpressionUtils.allOf(predicates);
+        if (predicate == null) {
+            return new BooleanBuilder();
+        }
+        return predicate;
     }
 
     public Predicate buildOr() {
-        return ExpressionUtils.anyOf(predicates);
+        Predicate predicate = ExpressionUtils.anyOf(predicates);
+        if (predicate == null) {
+            return new BooleanBuilder();
+        }
+        return predicate;
     }
 
     public static QPredicates builder() {

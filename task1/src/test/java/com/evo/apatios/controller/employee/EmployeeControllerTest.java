@@ -3,6 +3,7 @@ package com.evo.apatios.controller.employee;
 import com.evo.apatios.dto.input.employee.CreateEmployeeDto;
 import com.evo.apatios.dto.input.employee.UpdateEmployeeDto;
 import com.evo.apatios.dto.output.employee.EmployeeDto;
+import com.evo.apatios.dto.output.post.PostDto;
 import com.evo.apatios.exception.MessageError;
 import com.evo.apatios.model.Contacts;
 import com.evo.apatios.service.params.SearchParams;
@@ -16,8 +17,6 @@ import org.springframework.boot.test.autoconfigure.web.reactive.AutoConfigureWeb
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.web.reactive.server.WebTestClient;
 
-
-import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
 
@@ -39,7 +38,7 @@ class EmployeeControllerTest {
                                          .description("wwq")
                                          .jobType(CONTRACT)
                                          .contacts(new Contacts("9929", "email", "workEmail"))
-                                         .postId(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"))
+                                         .post(new PostDto(UUID.fromString("4085e25e-6e6c-4cf1-8949-63c4175bf168"), "Senior Dev"))
                                          .build();
 
     @Test
@@ -97,7 +96,7 @@ class EmployeeControllerTest {
                                                                .description(expectedDto.getDescription())
                                                                .jobType(expectedDto.getJobType())
                                                                .contacts(expectedDto.getContacts())
-                                                               .postId(expectedDto.getPostId())
+                                                               .postId(expectedDto.getPost().getId())
                                                                .build();
         //act
         EmployeeDto response = webTestClient.post()
@@ -116,7 +115,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, value = "/dataset/EmployeeControllerTest/updateExisted/DB.json")
+    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/EmployeeControllerTest/updateExisted/DB.json")
     @ExpectedDataSet(value = "/dataset/EmployeeControllerTest/updateExisted/dbByUpdateExpected.json")
     void updateExisted() {
         //arrange
@@ -127,7 +126,7 @@ class EmployeeControllerTest {
                                                                .description(expectedDto.getDescription())
                                                                .jobType(expectedDto.getJobType())
                                                                .contacts(expectedDto.getContacts())
-                                                               .postId(expectedDto.getPostId())
+                                                               .postId(expectedDto.getPost().getId())
                                                                .build();
         //act
         EmployeeDto response = webTestClient.put()
@@ -146,7 +145,7 @@ class EmployeeControllerTest {
     }
 
     @Test
-    @DataSet(cleanBefore = true, value = "/dataset/EmployeeControllerTest/delete/DB.json")
+    @DataSet(cleanBefore = true, cleanAfter = true, value = "/dataset/EmployeeControllerTest/delete/DB.json")
     @ExpectedDataSet(value = "/dataset/EmployeeControllerTest/delete/dbByDelete.json")
     void deleteById() {
         //arrange

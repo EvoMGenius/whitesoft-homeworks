@@ -14,7 +14,6 @@ import org.junit.jupiter.api.Test;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 
@@ -45,23 +44,29 @@ class CreateEmployeeActionTest {
                                                                             .postId(postId)
                                                                             .build();
 
-        Post post = mock(Post.class);
+        Post post = Post.builder()
+                        .id(postId)
+                        .name("post")
+                        .build();
 
         Employee expectedEmployee = mock(Employee.class);
 
-        ArgumentCaptor<CreateEmployeeArgument> employeeArgumentCaptor = ArgumentCaptor.forClass(CreateEmployeeArgument.class);
-
         when(postService.getExistingById(postId)).thenReturn(post);
 
-        when(employeeService.create(employeeArgumentCaptor.capture())).thenReturn(expectedEmployee);
+        when(employeeService.create(any())).thenReturn(expectedEmployee);
         //act
         Employee createdEmployee = action.execute(argument);
-        CreateEmployeeArgument capturedEmployeeArgument = employeeArgumentCaptor.getValue();
         //assert
+        ArgumentCaptor<CreateEmployeeArgument> employeeArgumentCaptor = ArgumentCaptor.forClass(CreateEmployeeArgument.class);
+
+        verify(employeeService).create(employeeArgumentCaptor.capture());
+        CreateEmployeeArgument capturedArgument = employeeArgumentCaptor.getValue();
+
         Assertions.assertEquals(createdEmployee, expectedEmployee);
-        assertThat(capturedEmployeeArgument).usingRecursiveComparison()
-                                            .ignoringFields("postId", "post")
-                                            .isEqualTo(argument);
+        assertThat(capturedArgument.getPost().getId()).isEqualTo(argument.getPostId());
+        assertThat(capturedArgument).usingRecursiveComparison()
+                                    .ignoringFields("postId", "post")
+                                    .isEqualTo(argument);
     }
 
 
@@ -73,7 +78,6 @@ class CreateEmployeeActionTest {
                                                                             .postId(postId)
                                                                             .build();
 
-        Post post = mock(Post.class);
         Employee expectedEmployee = mock(Employee.class);
 
         when(postService.getExistingById(postId)).thenThrow(NotFoundException.class);

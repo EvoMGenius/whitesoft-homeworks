@@ -10,7 +10,6 @@ import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.Optional;
-import java.util.UUID;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -28,15 +27,16 @@ class PostServiceTest {
         Post mock = Mockito.mock(Post.class);
         CreatePostArgument argument = new CreatePostArgument("post name");
 
-        ArgumentCaptor<Post> postCaptor = ArgumentCaptor.forClass(Post.class);
-
-        when(repository.save(postCaptor.capture())).thenReturn(mock);
+        when(repository.save(any())).thenReturn(mock);
         //act
         Post post = service.create(argument);
-        Post capturedPost = postCaptor.getValue();
         //assert
-        Assertions.assertEquals(post, mock);
+        ArgumentCaptor<Post> postCaptor = ArgumentCaptor.forClass(Post.class);
 
+        verify(repository).save(postCaptor.capture());
+        Post capturedPost = postCaptor.getValue();
+
+        Assertions.assertEquals(post, mock);
         assertThat(capturedPost).usingRecursiveComparison()
                                 .ignoringFields("id")
                                 .isEqualTo(argument);
