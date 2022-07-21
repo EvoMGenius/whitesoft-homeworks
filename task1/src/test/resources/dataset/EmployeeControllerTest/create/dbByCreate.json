@@ -1,0 +1,28 @@
+{
+  "employee":[
+    {
+      "first_name": "mikhail",
+      "last_name": "bunkov",
+      "description": "wwq",
+      "phone": "9929",
+      "email": "email",
+      "work_email": "workEmail",
+      "job_type": "CONTRACT",
+      "fk_post": "4085e25e-6e6c-4cf1-8949-63c4175bf168"
+    }
+  ],
+  "employee_characteristics": [
+    {
+      "characteristics": "Brave"
+    },
+    {
+      "characteristics": "Smart"
+    }
+  ],
+  "post":[
+    {
+      "id": "4085e25e-6e6c-4cf1-8949-63c4175bf168",
+      "name": "Senior Dev"
+    }
+  ]
+}
