@@ -6,10 +6,15 @@ import com.evo.apatios.model.Post;
 import com.evo.apatios.repository.EmployeeRepository;
 import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
+import com.evo.apatios.service.employee.argument.EmployeeArgumentProvider;
 import com.evo.apatios.service.params.SearchParams;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
+import org.junit.jupiter.params.provider.CsvSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
@@ -27,17 +32,13 @@ class EmployeeServiceTest {
 
     private final EmployeeService service = new EmployeeService(repository);
 
-    private final UUID postId = UUID.randomUUID();
-
     private final UUID firstEmployeeId = UUID.randomUUID();
 
-    @Test
-    void getEmployeeListWithAllCompletedSearchParams() {
+    @ParameterizedTest
+    @ArgumentsSource(EmployeeArgumentProvider.class)
+    void getEmployeeListWithAllCompletedSearchParams(SearchParams searchParams) {
         //arrange
-        SearchParams searchParams = SearchParams.builder()
-                                                .firstName("Ivan")
-                                                .lastName("Ivanov")
-                                                .postId(postId).build();
+        UUID postId = searchParams.getPostId();
 
         Post post = new Post(postId, "some post name");
 
