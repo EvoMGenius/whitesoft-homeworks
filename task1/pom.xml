@@ -24,6 +24,14 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <!--            guava-->
+            <groupId>com.google.guava</groupId>
+            <artifactId>guava</artifactId>
+            <version>31.1-jre</version>
+            <scope>compile</scope>
+        </dependency>
         <!--        lombok-->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -71,6 +79,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-logging</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
 
         <dependency>
@@ -90,15 +104,23 @@
             <groupId>com.jupiter-tools</groupId>
             <artifactId>spring-test-jpa</artifactId>
             <version>0.4</version>
+            <scope>test</scope>
         </dependency>
 
         <dependency>
             <groupId>com.jupiter-tools</groupId>
             <artifactId>spring-test-postgres</artifactId>
             <version>0.4</version>
+            <scope>test</scope>
         </dependency>
 
+        <!-- aop-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
 
+        <!-- swagger-->
         <dependency>
             <groupId>io.springfox</groupId>
             <artifactId>springfox-boot-starter</artifactId>
