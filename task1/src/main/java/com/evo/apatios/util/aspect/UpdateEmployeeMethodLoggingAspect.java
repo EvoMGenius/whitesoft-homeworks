@@ -22,46 +22,54 @@ public class UpdateEmployeeMethodLoggingAspect {
 
     private final EmployeeService employeeService;
 
-    @Pointcut("execution(public * com.evo.apatios.service.employee.EmployeeService.update(..))")
-    public void updateMethodsPointcut() {}
+    @Pointcut("@annotation(com.evo.apatios.util.aspect.annotation.Log)")
+    public void annotationPointcut() {}
 
-    @Before(value = "updateMethodsPointcut() && args(employee)",
+    @Before(value = "annotationPointcut() && args(employee)",
             argNames = "employee")
     public void saveLog(UpdateEmployeeArgument employee) {
-        log.info("Updating employee with id : {}", employee.getId());
         Employee existedEmployee = employeeService.getExisting(employee.getId());
-        logUpdatingFields(existedEmployee, employee);
+        log.info("Updating employee with id : {}, fields update : {}",
+                 employee.getId(), getUpdatingFields(existedEmployee, employee));
     }
 
-    private void logUpdatingFields(Employee employeeBeforeUpdate, UpdateEmployeeArgument employeeAfterUpdate) {
-
+    private String getUpdatingFields(Employee employeeBeforeUpdate, UpdateEmployeeArgument employeeAfterUpdate) {
+        StringBuilder sb = new StringBuilder();
         if (!Objects.equals(employeeBeforeUpdate.getFirstName(), employeeAfterUpdate.getFirstName())) {
-            log.info("firstName: before [{}] after [{}]", employeeBeforeUpdate.getFirstName(), employeeAfterUpdate.getFirstName());
+            sb.append("firstName: before [").append(employeeBeforeUpdate.getFirstName())
+              .append("] after [").append(employeeAfterUpdate.getFirstName()).append("]. ");
         }
 
         if (!Objects.equals(employeeBeforeUpdate.getLastName(), employeeAfterUpdate.getLastName())) {
-            log.info("lastName: before [{}] after [{}]", employeeBeforeUpdate.getLastName(), employeeAfterUpdate.getLastName());
+            sb.append("lastName: before [").append(employeeBeforeUpdate.getLastName())
+              .append("] after [").append(employeeAfterUpdate.getLastName()).append("]. ");
         }
 
         if (!Objects.equals(employeeBeforeUpdate.getDescription(), employeeAfterUpdate.getDescription())) {
-            log.info("description: before [{}] after [{}]", employeeBeforeUpdate.getDescription(), employeeAfterUpdate.getDescription());
+            sb.append("description: before [").append(employeeBeforeUpdate.getDescription())
+              .append("] after [").append(employeeAfterUpdate.getDescription()).append("]. ");
         }
 
         if (!Objects.equals(employeeBeforeUpdate.getCharacteristics(), employeeAfterUpdate.getCharacteristics())) {
-            log.info("characteristics: before [{}] after [{}]", employeeBeforeUpdate.getCharacteristics(), employeeAfterUpdate.getCharacteristics());
+            sb.append("characteristics: before [").append(employeeBeforeUpdate.getCharacteristics())
+              .append("] after [").append(employeeAfterUpdate.getCharacteristics()).append("]. ");
         }
 
         if (!Objects.equals(employeeBeforeUpdate.getContacts(), employeeAfterUpdate.getContacts())) {
-            log.info("contacts: before [{}] after [{}]", employeeBeforeUpdate.getContacts(), employeeAfterUpdate.getContacts());
+            sb.append("contacts: before [").append(employeeBeforeUpdate.getContacts())
+              .append("] after [").append(employeeAfterUpdate.getContacts()).append("]. ");
         }
 
         if (!Objects.equals(employeeBeforeUpdate.getJobType(), employeeAfterUpdate.getJobType())) {
-            log.info("jobType: before [{}] after [{}]", employeeBeforeUpdate.getJobType(), employeeAfterUpdate.getJobType());
+            sb.append("jobType: before [").append(employeeBeforeUpdate.getJobType())
+              .append("] after [").append(employeeAfterUpdate.getJobType()).append("]. ");
         }
 
         if (!Objects.equals(employeeBeforeUpdate.getPost(), employeeAfterUpdate.getPost())) {
-            log.info("post: before [{}] after [{}]", employeeBeforeUpdate.getPost(), employeeAfterUpdate.getPost());
+            sb.append("post: before [").append(employeeBeforeUpdate.getPost())
+              .append("] after [").append(employeeAfterUpdate.getPost()).append("]. ");
         }
+        return sb.toString();
     }
 
 }

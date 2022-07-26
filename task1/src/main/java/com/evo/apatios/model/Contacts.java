@@ -9,6 +9,7 @@ import javax.persistence.Embeddable;
 @NoArgsConstructor
 @AllArgsConstructor
 @EqualsAndHashCode
+@ToString
 @Embeddable
 public class Contacts {
     private String phone;

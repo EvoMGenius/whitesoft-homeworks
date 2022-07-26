@@ -1,9 +1,7 @@
 package com.evo.apatios.util.aspect;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.AfterThrowing;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
@@ -23,21 +21,13 @@ import java.util.Arrays;
 @Component
 @Slf4j
 @ConditionalOnProperty(prefix = "logger", name = "controller")
-public class ControllersMethodLoggingAspect {
+public class ApiRequestLoggingAspect {
 
-    @Pointcut("within(com.evo.apatios.controller.employee.EmployeeController) || within(com.evo.apatios.controller.post.PostController)")
+    @Pointcut("within(com.evo.apatios.controller.*.*Controller)")
     public void controllerPointcut() {}
 
-    @AfterThrowing(pointcut = "controllerPointcut()", throwing = "e")
-    public void logAfterThrowing(JoinPoint jp, Throwable e) {
-        log.error("Discovered  exception in {}.{} with message = {}",
-                  jp.getSignature().getDeclaringTypeName(),
-                  jp.getSignature().getName(),
-                  e.getMessage());
-    }
-
     @Around("controllerPointcut()")
-    public Object around(ProceedingJoinPoint point) throws Throwable {
+    public Object logRequest(ProceedingJoinPoint point) throws Throwable {
         Object result;
         try {
             result = point.proceed();
@@ -47,31 +37,35 @@ public class ControllersMethodLoggingAspect {
                       point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
             throw e;
         }
-
         return result;
     }
+
 
     private void saveLog(ProceedingJoinPoint joinPoint) {
         MethodSignature signature = (MethodSignature) joinPoint.getSignature();
         Method method = signature.getMethod();
-
-        logMethodName(joinPoint, signature);
-        logParams(joinPoint, method);
+        StringBuilder sb = new StringBuilder();
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
 
-        logRequest(request);
+        sb.append("method= ")
+          .append(getMethodName(joinPoint, signature))
+          .append(", params= ")
+          .append(getParams(joinPoint, method))
+          .append(", request: ")
+          .append(getRequestInfo(request));
+
+        log.info(sb.toString());
     }
 
-    private void logMethodName(ProceedingJoinPoint joinPoint, MethodSignature signature) {
+    private String getMethodName(ProceedingJoinPoint joinPoint, MethodSignature signature) {
         String className = joinPoint.getTarget().getClass().getName();
         String methodName = signature.getName();
 
-        log.info("method= " + className + "." + methodName + "()");
-
+        return className + "." + methodName + "()";
     }
 
-    private void logParams(ProceedingJoinPoint joinPoint, Method method) {
+    private String getParams(ProceedingJoinPoint joinPoint, Method method) {
         Object[] args = joinPoint.getArgs();
         LocalVariableTableParameterNameDiscoverer nameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
         String[] paramNames = nameDiscoverer.getParameterNames(method);
@@ -86,15 +80,14 @@ public class ControllersMethodLoggingAspect {
                       .append(args[i]);
             }
         }
-
-        log.info("params=" + params);
+        return params.toString();
     }
 
-    private void logRequest(HttpServletRequest request) {
-        log.info("ipAddress= " + request.getRemoteAddr());
-        log.info("endpoint= " + request.getServletPath());
-        log.info("requestTime= " + LocalDateTime.now());
-        log.info("operation= " + request.getMethod());
+    private String getRequestInfo(HttpServletRequest request) {
+        return "ipAddress= " + request.getRemoteAddr() + ", "
+               + "endpoint= " + request.getServletPath() + ", "
+               + "requestTime= " + LocalDateTime.now() + ", "
+               + "operation= " + request.getMethod();
     }
 
 }
