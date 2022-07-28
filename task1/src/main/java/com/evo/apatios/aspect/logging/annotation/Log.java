@@ -1,4 +1,4 @@
-package com.evo.apatios.util.aspect.annotation;
+package com.evo.apatios.aspect.logging.annotation;
 
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;

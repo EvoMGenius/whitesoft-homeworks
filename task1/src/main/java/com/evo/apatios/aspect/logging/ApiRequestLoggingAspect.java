@@ -1,9 +1,9 @@
-package com.evo.apatios.util.aspect;
+package com.evo.apatios.aspect.logging;
 
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.ProceedingJoinPoint;
-import org.aspectj.lang.annotation.Around;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
@@ -23,22 +23,13 @@ public class ApiRequestLoggingAspect {
     @Pointcut("within(com.evo.apatios.controller.*.*Controller)")
     public void controllerPointcut() {}
 
-    @Around("controllerPointcut()")
-    public Object logRequest(ProceedingJoinPoint point) throws Throwable {
-        Object result;
-        try {
-            result = point.proceed();
-            saveLog(point);
-        } catch (IllegalArgumentException e) {
-            log.error("Illegal argument: {} in {}.{}()", Arrays.toString(point.getArgs()),
-                      point.getSignature().getDeclaringTypeName(), point.getSignature().getName());
-            throw e;
-        }
-        return result;
+    @Before("controllerPointcut()")
+    public void logRequest(JoinPoint point) throws Throwable {
+        saveLog(point);
     }
 
 
-    private void saveLog(ProceedingJoinPoint joinPoint) {
+    void saveLog(JoinPoint joinPoint) {
         StringBuilder sb = new StringBuilder();
 
         HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest();
@@ -53,7 +44,7 @@ public class ApiRequestLoggingAspect {
         log.info(sb.toString());
     }
 
-    private String getRequestInfo(HttpServletRequest request) {
+    String getRequestInfo(HttpServletRequest request) {
         return "ipAddress= " + request.getRemoteAddr() + ", "
                + "endpoint= " + request.getServletPath() + ", "
                + "requestTime= " + LocalDateTime.now() + ", "
