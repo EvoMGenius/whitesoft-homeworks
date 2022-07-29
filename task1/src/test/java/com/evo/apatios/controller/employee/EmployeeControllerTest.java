@@ -3,7 +3,7 @@ package com.evo.apatios.controller.employee;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.evo.apatios.aspect.logging.ApiRequestLoggingAspect;
-import com.evo.apatios.aspect.logging.LoggingAppender;
+import com.evo.apatios.controller.employee.logger.util.LoggingAppender;
 import com.evo.apatios.dto.input.employee.CreateEmployeeDto;
 import com.evo.apatios.dto.input.employee.UpdateEmployeeDto;
 import com.evo.apatios.dto.output.employee.EmployeeDto;
