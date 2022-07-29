@@ -1,5 +1,6 @@
 package com.evo.apatios.util.aspect;
 
+import com.evo.apatios.aspect.logging.UpdateEmployeeMethodLoggingAspect;
 import com.evo.apatios.model.Contacts;
 import com.evo.apatios.model.Employee;
 import com.evo.apatios.model.JobType;
