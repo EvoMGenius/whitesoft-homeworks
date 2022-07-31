@@ -29,60 +29,25 @@ public class UpdateEmployeeMethodLoggingAspect {
             argNames = "employee")
     public void saveLog(UpdateEmployeeArgument employee) {
         Employee existedEmployee = employeeService.getExisting(employee.getId());
-        log.info("Updating employee with id : {}, fields update : {}",
-                 employee.getId(), getUpdatingFields(existedEmployee, employee));
+        log.info(String.format("Updating employee with id : %s, fields update : %s",
+                 employee.getId(), getUpdatingFields(existedEmployee, employee)));
     }
 
     private String getUpdatingFields(Employee employeeBeforeUpdate, UpdateEmployeeArgument employeeAfterUpdate) {
-        StringBuilder sb = new StringBuilder();
+        String sb = getUpdateField(employeeBeforeUpdate.getFirstName(), employeeAfterUpdate.getFirstName(), "firstName") +
+                    getUpdateField(employeeBeforeUpdate.getLastName(), employeeAfterUpdate.getLastName(), "lastName") +
+                    getUpdateField(employeeBeforeUpdate.getPost(), employeeAfterUpdate.getPost(), "post") +
+                    getUpdateField(employeeBeforeUpdate.getJobType(), employeeAfterUpdate.getJobType(), "jobType") +
+                    getUpdateField(employeeBeforeUpdate.getContacts(), employeeAfterUpdate.getContacts(), "contacts") +
+                    getUpdateField(employeeBeforeUpdate.getDescription(), employeeAfterUpdate.getDescription(), "description") +
+                    getUpdateField(employeeBeforeUpdate.getCharacteristics(), employeeAfterUpdate.getCharacteristics(), "characteristics");
 
-        if (!Objects.equals(employeeBeforeUpdate.getLastName(), employeeAfterUpdate.getFirstName())) {
-            sb.append(getUpdateField(employeeBeforeUpdate, employeeAfterUpdate, "firstName"));
-        }
-        if (!Objects.equals(employeeBeforeUpdate.getLastName(), employeeAfterUpdate.getLastName())) {
-            sb.append(getUpdateField(employeeBeforeUpdate, employeeAfterUpdate, "lastName"));
-        }
-        if (!Objects.equals(employeeBeforeUpdate.getDescription(), employeeAfterUpdate.getDescription())) {
-            sb.append(getUpdateField(employeeBeforeUpdate, employeeAfterUpdate, "description"));
-        }
-        if (!Objects.equals(employeeBeforeUpdate.getCharacteristics(), employeeAfterUpdate.getCharacteristics())) {
-            sb.append(getUpdateField(employeeBeforeUpdate, employeeAfterUpdate, "characteristics"));
-        }
-        if (!Objects.equals(employeeBeforeUpdate.getContacts(), employeeAfterUpdate.getContacts())) {
-            sb.append(getUpdateField(employeeBeforeUpdate, employeeAfterUpdate, "contacts"));
-        }
-        if (!Objects.equals(employeeBeforeUpdate.getJobType(), employeeAfterUpdate.getJobType())) {
-            sb.append(getUpdateField(employeeBeforeUpdate, employeeAfterUpdate, "jobType"));
-        }
-        if (!Objects.equals(employeeBeforeUpdate.getPost(), employeeAfterUpdate.getPost())) {
-            sb.append(getUpdateField(employeeBeforeUpdate, employeeAfterUpdate, "post"));
-        }
-        return sb.toString();
+        return sb;
     }
 
-    private String getUpdateField(Employee employeeBeforeUpdate, UpdateEmployeeArgument employeeAfterUpdate, String fieldName) {
-        if (fieldName.equals("firstName")) {
-            return fieldName + ": before [" + employeeBeforeUpdate.getFirstName() + "] after [" + employeeAfterUpdate.getFirstName() + "]. ";
-        }
-        if (fieldName.equals("lastName")) {
-            return fieldName + ": before [" + employeeBeforeUpdate.getLastName() + "] after [" + employeeAfterUpdate.getLastName() + "]. ";
-        }
-        if (fieldName.equals("description")) {
-            return fieldName + ": before [" + employeeBeforeUpdate.getDescription() + "] after [" + employeeAfterUpdate.getDescription() + "]. ";
-        }
-        if (fieldName.equals("characteristics")) {
-            return fieldName + ": before [" + employeeBeforeUpdate.getCharacteristics() + "] after [" + employeeAfterUpdate.getCharacteristics() + "]. ";
-        }
-        if (fieldName.equals("contacts")) {
-            return fieldName + ": before [" + employeeBeforeUpdate.getContacts() + "] after [" + employeeAfterUpdate.getContacts() + "]. ";
-        }
-        if (fieldName.equals("jobType")) {
-            return fieldName + ": before [" + employeeBeforeUpdate.getJobType() + "] after [" + employeeAfterUpdate.getJobType() + "]. ";
-        }
-        if (fieldName.equals("post")) {
-            return fieldName + ": before [" + employeeBeforeUpdate.getPost() + "] after [" + employeeAfterUpdate.getPost() + "]. ";
-        }
-        return "";
+    private String getUpdateField(Object currentValue, Object newValue, String fieldName) {
+        return Objects.equals(currentValue, newValue)
+               ? ""
+               : fieldName + ": before [" + currentValue + "] after [" + newValue + "]. ";
     }
-
 }

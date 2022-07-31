@@ -3,6 +3,7 @@ package com.evo.apatios.controller.employee;
 import ch.qos.logback.classic.Logger;
 import ch.qos.logback.classic.LoggerContext;
 import com.evo.apatios.aspect.logging.ApiRequestLoggingAspect;
+import com.evo.apatios.aspect.logging.UpdateEmployeeMethodLoggingAspect;
 import com.evo.apatios.controller.employee.logger.util.LoggingAppender;
 import com.evo.apatios.dto.input.employee.CreateEmployeeDto;
 import com.evo.apatios.dto.input.employee.UpdateEmployeeDto;
@@ -39,7 +40,9 @@ class EmployeeControllerTest {
 
     private static final String ip = "127.0.0.1";
 
-    private LoggingAppender logAppender;
+    private LoggingAppender controllerLogAppender;
+
+    private LoggingAppender updateLogAppender;
 
     EmployeeDto expectedDto = EmployeeDto.builder()
                                          .id(UUID.fromString("ad4faaaf-1c1c-4442-87db-1df09c662f89"))
@@ -57,17 +60,24 @@ class EmployeeControllerTest {
 
     @BeforeEach
     void setUp() {
-        logAppender = new LoggingAppender();
-        logAppender.setContext(new LoggerContext());
-        logAppender.start();
+        controllerLogAppender = new LoggingAppender();
+        controllerLogAppender.setContext(new LoggerContext());
+        controllerLogAppender.start();
 
-        Logger logger = (Logger) LoggerFactory.getLogger(ApiRequestLoggingAspect.class);
-        logger.addAppender(logAppender);
+        updateLogAppender = new LoggingAppender();
+        updateLogAppender.setContext(new LoggerContext());
+        updateLogAppender.start();
+
+        Logger controllerLogger = (Logger) LoggerFactory.getLogger(ApiRequestLoggingAspect.class);
+        controllerLogger.addAppender(controllerLogAppender);
+
+        Logger updateLogger = (Logger) LoggerFactory.getLogger(UpdateEmployeeMethodLoggingAspect.class);
+        updateLogger.addAppender(updateLogAppender);
     }
 
     @AfterEach
     void cleanUp() {
-        logAppender.stop();
+        controllerLogAppender.stop();
     }
 
     @Test
@@ -184,6 +194,12 @@ class EmployeeControllerTest {
                                             .getResponseBody();
         assertApiRequestLog("EmployeeDto", "update", "UUID,UpdateEmployeeDto", expectedDto.getId().toString() + ", " + updateEmployeeDto, ip, endpoint, "PUT");
 
+        assertThat(updateLogAppender.getEvents())
+                .isNotEmpty()
+                .anySatisfy(event -> assertThat(event.getMessage())
+                        .isEqualTo("Updating employee with id : %s, fields update : firstName: before [Anton] after [%s]. lastName: before [Ivanov] after [%s]. characteristics: before [[Something, Something 2]] after [%s]. ",
+                                   expectedDto.getId(), expectedDto.getFirstName(), expectedDto.getLastName(), expectedDto.getCharacteristics()));
+
         assertThat(response).usingRecursiveComparison()
                             .isEqualTo(expectedDto);
     }
@@ -240,6 +256,6 @@ class EmployeeControllerTest {
     }
 
     private void assertLog(String expectedLog) {
-        assertThat(logAppender.getEvents()).isNotEmpty().anySatisfy(event -> assertThat(event.getMessage()).isEqualTo(expectedLog));
+        assertThat(controllerLogAppender.getEvents()).isNotEmpty().anySatisfy(event -> assertThat(event.getMessage()).isEqualTo(expectedLog));
     }
 }
