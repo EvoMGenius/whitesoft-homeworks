@@ -233,23 +233,6 @@ class EmployeeControllerTest {
                                              .message("Employee with this id is not found")
                                              .build());
     }
-//
-//    private void loggingApiCheck(String api, List<String> params){
-//        String loggingExpected = String.format("api: %s, ip: 127.0.0.1, parametrs: %s", api, params.stream().map(String::valueOf).collect(Collectors.joining("\t")));
-//        assertLogging(loggingExpected);
-//    }
-//
-//    private void loggingExceptions(String method, String id){
-////        String loggingExpected = "Method com.dasha.controller.employee.EmployeeController."+method+" threw exception: Данного работника не существует " + id;
-//        assertLogging(loggingExpected);
-//    }
-    // create - method= EmployeeDto com.evo.apatios.controller.employee.EmployeeController.create(CreateEmployeeDto), params= [CreateEmployeeDto(firstName=mikhail, lastName=bunkov, description=wwq, postId=4085e25e-6e6c-4cf1-8949-63c4175bf168, contacts=Contacts(phone=9929, email=email, workEmail=workEmail), characteristics=[Brave, Smart], jobType=CONTRACT)], request: ipAddress= 127.0.0.1, endpoint= /employee, requestTime= 2022-07-29T17:30:55.151918248, operation= POST
-    // findExisted - method= EmployeeDto com.evo.apatios.controller.employee.EmployeeController.findById(UUID), params= [ad4faaaf-1c1c-4442-87db-1df09c662f89], request: ipAddress= 127.0.0.1, endpoint= /employee/ad4faaaf-1c1c-4442-87db-1df09c662f89, requestTime= 2022-07-29T17:30:55.704521828, operation= GET
-//    find not exist - method= EmployeeDto com.evo.apatios.controller.employee.EmployeeController.findById(UUID), params= [e70b84fd-2016-4163-a492-9883060f7a29], request: ipAddress= 127.0.0.1, endpoint= /employee/e70b84fd-2016-4163-a492-9883060f7a29, requestTime= 2022-07-29T17:30:55.865798811, operation= GET
-//    findall - method= List com.evo.apatios.controller.employee.EmployeeController.findAllEmployees(SearchParams), params= [SearchParams(firstName=mikhail, lastName=null, postId=null)], request: ipAddress= 127.0.0.1, endpoint= /employee/list, requestTime= 2022-07-29T17:30:56.297072600, operation= GET
-//    update  apilogg- method= EmployeeDto com.evo.apatios.controller.employee.EmployeeController.update(UUID,UpdateEmployeeDto), params= [ad4faaaf-1c1c-4442-87db-1df09c662f89, UpdateEmployeeDto(firstName=mikhail, lastName=bunkov, description=wwq, postId=4085e25e-6e6c-4cf1-8949-63c4175bf168, contacts=Contacts(phone=9929, email=email, workEmail=workEmail), characteristics=[Brave, Smart], jobType=CONTRACT)], request: ipAddress= 127.0.0.1, endpoint= /employee/ad4faaaf-1c1c-4442-87db-1df09c662f89, requestTime= 2022-07-29T17:30:56.801016106, operation= PUT
-//    updlog- Updating employee with id : ad4faaaf-1c1c-4442-87db-1df09c662f89, fields update : firstName: before [Anton] after [mikhail]. lastName: before [Ivanov] after [bunkov]. characteristics: before [[Something, Something 2]] after [[Brave, Smart]].
-//    delete - method= void com.evo.apatios.controller.employee.EmployeeController.deleteById(UUID), params= [ad4faaaf-1c1c-4442-87db-1df09c662f89], request: ipAddress= 127.0.0.1, endpoint= /employee/ad4faaaf-1c1c-4442-87db-1df09c662f89, requestTime= 2022-07-29T17:30:57.199903003, operation= DELETE
 
     private void assertApiRequestLog(String returningType, String methodName, String methodArgsTypes, String params, String requestIdAddress, String endpoint, String operation) {
         String loggingExpected = String.format("method= %s com.evo.apatios.controller.employee.EmployeeController.%s(%s), params= [%s], request: ipAddress= %s, endpoint= %s, operation= %s", returningType, methodName, methodArgsTypes, params, requestIdAddress, endpoint, operation);

@@ -22,7 +22,7 @@ public class UpdateEmployeeMethodLoggingAspect {
 
     private final EmployeeService employeeService;
 
-    @Pointcut("@annotation(com.evo.apatios.aspect.logging.annotation.Log)")
+    @Pointcut("@annotation(com.evo.apatios.aspect.logging.annotation.LogUpdateMethod)")
     public void annotationPointcut() {}
 
     @Before(value = "annotationPointcut() && args(employee)",

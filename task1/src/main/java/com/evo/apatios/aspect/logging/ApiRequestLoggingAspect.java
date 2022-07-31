@@ -26,12 +26,12 @@ public class ApiRequestLoggingAspect {
 
     @Before("controllerPointcut()")
     public void logRequest(JoinPoint point) {
-        String logInfo = buildLoggerTest(point);
+        String logInfo = buildLoggerText(point);
 
         log.info(logInfo);
     }
 
-    private String buildLoggerTest(JoinPoint joinPoint) {
+    private String buildLoggerText(JoinPoint joinPoint) {
         return "method= " +
                joinPoint.getSignature() +
                ", params= " +

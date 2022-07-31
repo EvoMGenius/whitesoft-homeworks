@@ -6,7 +6,7 @@ import com.evo.apatios.repository.EmployeeRepository;
 import com.evo.apatios.service.argument.employee.CreateEmployeeArgument;
 import com.evo.apatios.service.argument.employee.UpdateEmployeeArgument;
 import com.evo.apatios.service.params.QPredicates;
-import com.evo.apatios.aspect.logging.annotation.Log;
+import com.evo.apatios.aspect.logging.annotation.LogUpdateMethod;
 import com.google.common.collect.Lists;
 import com.querydsl.core.types.Predicate;
 import lombok.RequiredArgsConstructor;
@@ -36,7 +36,7 @@ public class EmployeeService {
     }
 
     @Transactional
-    @Log
+    @LogUpdateMethod
     public Employee update(UpdateEmployeeArgument employee) {
         Employee existedEmployee = getExisting(employee.getId());
 
