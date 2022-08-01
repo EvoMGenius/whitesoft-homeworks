@@ -10,12 +10,16 @@ import com.evo.apatios.service.params.SearchParams;
 import com.querydsl.core.types.Predicate;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtensionContext;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.*;
 import org.mockito.ArgumentCaptor;
 import org.mockito.Mockito;
 
 import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Stream;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -27,17 +31,13 @@ class EmployeeServiceTest {
 
     private final EmployeeService service = new EmployeeService(repository);
 
-    private final UUID postId = UUID.randomUUID();
-
     private final UUID firstEmployeeId = UUID.randomUUID();
 
-    @Test
-    void getEmployeeListWithAllCompletedSearchParams() {
+    @ParameterizedTest
+    @MethodSource("getParams")
+    void getEmployeeListWithAllCompletedSearchParams(SearchParams searchParams) {
         //arrange
-        SearchParams searchParams = SearchParams.builder()
-                                                .firstName("Ivan")
-                                                .lastName("Ivanov")
-                                                .postId(postId).build();
+        UUID postId = searchParams.getPostId();
 
         Post post = new Post(postId, "some post name");
 
@@ -149,5 +149,13 @@ class EmployeeServiceTest {
         });
 
         verify(repository).findById(any());
+    }
+
+    static Stream<SearchParams> getParams(){
+        return Stream.of(SearchParams.builder()
+                                     .firstName("Ivan")
+                                     .lastName("Ivanov")
+                                     .postId(UUID.randomUUID())
+                                     .build());
     }
 }
