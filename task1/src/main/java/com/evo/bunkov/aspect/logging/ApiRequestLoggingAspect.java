@@ -1,11 +1,13 @@
 package com.evo.bunkov.aspect.logging;
 
+import com.evo.bunkov.aspect.logging.dto.LogRequestDto;
+import com.evo.bunkov.feing.LoggerServiceFeingClient;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnProperty;
 import org.springframework.stereotype.Component;
 
@@ -14,30 +16,31 @@ import java.util.Arrays;
 
 @Aspect
 @Component
-@Slf4j
+//@Slf4j
 @ConditionalOnProperty(prefix = "logger", name = "controller")
 @RequiredArgsConstructor
 public class ApiRequestLoggingAspect {
 
     private final HttpServletRequest request;
 
+    private final LoggerServiceFeingClient loggerFieng;
+
     @Pointcut("within(com.evo.bunkov.controller.*.*Controller)")
     public void controllerPointcut() {}
 
     @Before("controllerPointcut()")
     public void logRequest(JoinPoint point) {
-        String logInfo = buildLoggerText(point);
+        LogRequestDto logInfo = buildLoggerText(point);
 
-        log.info(logInfo);
+        loggerFieng.logRequest(logInfo);
     }
 
-    private String buildLoggerText(JoinPoint joinPoint) {
-        return "method= " +
-               joinPoint.getSignature() +
-               ", params= " +
-               Arrays.toString(joinPoint.getArgs()) +
-               ", request: " +
-               getRequestInfo();
+    private LogRequestDto buildLoggerText(JoinPoint joinPoint) {
+        return LogRequestDto.builder()
+                            .method(joinPoint.getSignature().toString())
+                            .params(Arrays.toString(joinPoint.getArgs()))
+                            .requestInfo(getRequestInfo())
+                            .build();
     }
 
     private String getRequestInfo() {
