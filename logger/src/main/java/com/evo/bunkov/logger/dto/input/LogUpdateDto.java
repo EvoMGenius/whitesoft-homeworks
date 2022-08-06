@@ -1,6 +1,6 @@
 package com.evo.bunkov.logger.dto.input;
 
-import com.mysema.commons.lang.Pair;
+import com.evo.bunkov.logger.dto.PairOfFields;
 import lombok.Data;
 
 import java.util.Map;
@@ -10,5 +10,5 @@ import java.util.UUID;
 public class LogUpdateDto {
     private UUID updatedEmployeeId;
 
-    private Map<String , Pair<String, String >> updatedFields;
+    private Map<String, PairOfFields> updatedFields;
 }

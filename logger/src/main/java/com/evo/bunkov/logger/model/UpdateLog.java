@@ -3,6 +3,7 @@ package com.evo.bunkov.logger.model;
 import lombok.*;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.Map;
 import java.util.Objects;
 import java.util.UUID;
@@ -24,6 +25,8 @@ public class UpdateLog {
 
     @ElementCollection
     private Map<String, PairOfFields> updatedFields;
+
+    private LocalDateTime dateTime;
 
     @Override
     public boolean equals(Object o) {

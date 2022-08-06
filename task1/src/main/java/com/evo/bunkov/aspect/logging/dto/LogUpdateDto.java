@@ -1,6 +1,5 @@
 package com.evo.bunkov.aspect.logging.dto;
 
-import com.mysema.commons.lang.Pair;
 import lombok.Builder;
 import lombok.Data;
 
@@ -12,5 +11,5 @@ import java.util.UUID;
 public class LogUpdateDto {
     private UUID updatedEmployeeId;
 
-    private Map<String , Pair<String, String >> updatedFields;
+    private Map<String, PairOfFields> updatedFields;
 }
