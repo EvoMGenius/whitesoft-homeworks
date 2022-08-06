@@ -57,7 +57,8 @@ public class UpdateEmployeeMethodLoggingAspect {
 
         fieldMap.entrySet().stream()
                 .filter(Predicate.not(stringPairEntry ->
-                                              stringPairEntry.getValue().equals(new PairOfFields("", ""))))
+                                              stringPairEntry.getValue().equals(new PairOfFields("", "")))
+                       )
                 .forEach(stringPairEntry ->
                                  updatedFieldMap.put(stringPairEntry.getKey(), stringPairEntry.getValue()));
         return LogUpdateDto.builder()
@@ -67,7 +68,7 @@ public class UpdateEmployeeMethodLoggingAspect {
     }
 
     private PairOfFields getUpdateField(Object currentValue, Object newValue) {
-        return Objects.equals(currentValue, newValue)
+        return Objects.equals(currentValue.toString(), newValue.toString())
                ? new PairOfFields("", "")
                : new PairOfFields(currentValue.toString(), newValue.toString());
     }
