@@ -3,10 +3,10 @@ package com.evo.bunkov.eureka;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
-@SpringBootTest
+//@SpringBootTest
 class EurekaApplicationTests {
 
-    @Test
+//    @Test
     void contextLoads() {
     }
 
